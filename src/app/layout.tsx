@@ -4,7 +4,7 @@ import './data-tables-css.css';
 import './satoshi.css';
 import { useState, useEffect } from 'react';
 import Loader from '@/components/common/Loader';
-// import { SessionProvider } from 'next-auth/react';
+import { SessionProvider } from 'next-auth/react';
 
 export default function RootLayout({ children, }: { children: React.ReactNode; }) {
   const [loading, setLoading] = useState<boolean>(true);
@@ -24,9 +24,9 @@ export default function RootLayout({ children, }: { children: React.ReactNode; }
 
               <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
                 <main>
-                  {/* <SessionProvider> */}
+                  <SessionProvider>
                     {children}
-                  {/* </SessionProvider> */}
+                  </SessionProvider>
                 </main>
               </div>
             </div>

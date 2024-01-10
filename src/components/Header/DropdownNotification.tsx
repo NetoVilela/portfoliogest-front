@@ -5,7 +5,9 @@ const DropdownNotification = () => {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 	const [notifying, setNotifying] = useState(true);
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const trigger = useRef<any>(null);
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const dropdown = useRef<any>(null);
 
 	useEffect(() => {

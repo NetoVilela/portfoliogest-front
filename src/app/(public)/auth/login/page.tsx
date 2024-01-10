@@ -1,10 +1,10 @@
-"use client";
+'use client';
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Breadcrumb from '@/components/Breadcrumbs/Breadcrumb';
 import { FieldValues, useForm } from 'react-hook-form';
-import { signIn } from "next-auth/react";
+import { signIn } from 'next-auth/react';
 
 export default function SignIn() {
 	const { register, handleSubmit } = useForm();
@@ -12,13 +12,14 @@ export default function SignIn() {
 	const makeLogin = async (data: FieldValues) => {
 		console.log(data);
 
-		const response = await signIn("credentials", {
-			redirect: false,
+		const response = await signIn('credentials', {
 			email: data.email,
 			password: data.password,
+			redirect: true,
+			callbackUrl: '/'
 		});
 		console.log(response);
-	}
+	};
 
 	return (
 		<>
@@ -181,7 +182,7 @@ export default function SignIn() {
 						<div className="w-full p-4 sm:p-12.5 xl:p-17.5">
 							<span className="mb-1.5 block font-medium">Start for free</span>
 							<h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-								Sign In to TailAdmin
+								Entre no PortfolioGest
 							</h2>
 
 							<form onSubmit={handleSubmit(makeLogin)}>

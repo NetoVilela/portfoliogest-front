@@ -5,7 +5,9 @@ import Image from 'next/image';
 const DropdownUser = () => {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const trigger = useRef<any>(null);
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const dropdown = useRef<any>(null);
 
 	// close on click outside

@@ -25,6 +25,7 @@ const MapOne = () => {
 							fill: '#FFFB00',
 						},
 					}}
+					// eslint-disable-next-line @typescript-eslint/no-unused-vars
 					onRegionTipShow={function reginalTip(event, label, code) {
 						// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 						//@ts-ignore

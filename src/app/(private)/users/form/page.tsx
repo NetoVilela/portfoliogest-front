@@ -47,7 +47,7 @@ const Settings = () => {
 							{
 								headers: {
 									'Content-Type': 'multipart/form-data',  // Certifique-se de definir o tipo de conteúdo como multipart/form-data
-									'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmZmJlYjFiMC1hNjA3LTRlMTQtYmM3YS01YjM1YTdmMzdkMWUiLCJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6ImFkbWluQGVtYWlsLmNvbSIsInByb2ZpbGVJZCI6MiwiaWF0IjoxNzA0NzI3NjIxLCJleHAiOjE3MDQ4MTQwMjF9.BgtDZLMkV-xPFR_i4QLDo4JH2PFM1RAu-eye-63YIto`,   // Adicione o cabeçalho Authorization com o token Bearer
+									'Authorization': '',   // Adicione o cabeçalho Authorization com o token Bearer
 								},
 							}
 						);

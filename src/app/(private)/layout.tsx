@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import Loader from '@/components/common/Loader';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
+import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 
 type Props = {
   children: React.ReactNode;
@@ -10,6 +12,14 @@ type Props = {
 export default function RootLayout({ children }: Props) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect('/auth/login');
+    },
+  });
+  console.log(session);
+
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000);
