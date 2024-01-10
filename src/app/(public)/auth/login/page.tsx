@@ -10,12 +10,10 @@ export default function SignIn() {
 	const { register, handleSubmit } = useForm();
 
 	const makeLogin = async (data: FieldValues) => {
-		console.log(data);
-
 		const response = await signIn('credentials', {
 			email: data.email,
 			password: data.password,
-			redirect: true,
+			redirect: false,
 			callbackUrl: '/'
 		});
 		console.log(response);
