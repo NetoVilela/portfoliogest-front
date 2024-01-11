@@ -1,15 +1,29 @@
+'use client';
 import Breadcrumb from '@/components/Breadcrumbs/Breadcrumb';
-
-import { Metadata } from 'next';
-export const metadata: Metadata = {
-	title: 'Profile Page | Next.js E-commerce Dashboard Template',
-	description: 'This is Profile page for TailAdmin Next.js',
-	// other metadata
-};
+// import api from '@/services/api';
+import useAxiosAuth from '@/services/hooks/useAxiosAuth';
+import { useEffect, } from 'react';
 
 const Profile = () => {
+	const axiosAuth = useAxiosAuth();
+
+	useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axiosAuth.get('/users');
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUsers();
+  }, []); 
+
 	return (
 		<>
+
+			<title>Listagem de usuários</title>
+
 			<Breadcrumb pageName="Listagem de usuários" />
 
 			<div className="flex flex-col">

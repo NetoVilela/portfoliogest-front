@@ -10,6 +10,7 @@ declare module 'next-auth' {
       profileId: number,
       iat: number,
       exp: number,
+      accessToken: string;
     }
   }
 }

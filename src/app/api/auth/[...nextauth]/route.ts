@@ -1,4 +1,4 @@
-import { api } from '@/services/api';
+import api from '@/services/api';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import jwt from 'jsonwebtoken';
@@ -23,12 +23,11 @@ export const authOptions: NextAuthOptions = {
       },
       // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
       async authorize(credentials, req): Promise<any | null> {
-        console.log('authorize');
+
         try {
           const response = await api.post('/auth/login', credentials);
 
           if (response.status === 200) {
-            console.log('status 200');
             const decodedPayload = jwt.decode(response.data.access_token) as DecodedPayloadType;
 
             if (decodedPayload) {
@@ -39,19 +38,13 @@ export const authOptions: NextAuthOptions = {
                 profileId: decodedPayload.profileId,
                 token: response.data.access_token,
               };
-              console.log('authorize');
-              console.log(user);
               return user;
             } else {
-              console.log('decodedPayload not found');
               return null;
             }
 
-          }else{
-            console.log('log else');
           }
-
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
           console.log(error.response.data.message);
           throw new Error(error.response.data.message);
@@ -74,6 +67,7 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token, user }: any): Promise<any> {
 
       session.user = token;
+      session.user.accessToken = token.token;
 
       return session;
     },

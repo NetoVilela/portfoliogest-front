@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Loader from '@/components/common/Loader';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
@@ -10,7 +10,8 @@ type Props = {
   children: React.ReactNode;
 }
 export default function RootLayout({ children }: Props) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loading, setLoading] = useState<boolean>(true);
   const { data: session } = useSession({
     required: true,
@@ -18,12 +19,19 @@ export default function RootLayout({ children }: Props) {
       redirect('/auth/login');
     },
   });
-  console.log(session);
+
+  if(!session){
+    return <></>;
+  }
+
+  if(loading && session){
+    setLoading(false);
+  }
 
 
-  useEffect(() => {
-    setTimeout(() => setLoading(false), 1000);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => setLoading(false), 1000);
+  // }, [session]);
 
   return (
     

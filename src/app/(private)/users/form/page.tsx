@@ -4,7 +4,7 @@ import { LuLock, LuMail, LuUser2 } from 'react-icons/lu';
 import createUserSchema from './schemas/createUser.schema';
 import { FieldValues, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { api } from '@/services/api';
+import api from '@/services/api';
 import { useEffect, useState } from 'react';
 import Button from '@/components/Button';
 import Alert from '@/components/Alert';
