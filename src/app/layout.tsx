@@ -20,7 +20,7 @@ export default function RootLayout({ children, }: { children: React.ReactNode; }
           {loading ? (
             <Loader />
           ) : (
-            <div className="flex h-screen overflow-hidden">
+            <div className="">
 
               <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
                 <main>

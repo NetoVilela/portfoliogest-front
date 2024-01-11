@@ -27,28 +27,34 @@ export const authOptions: NextAuthOptions = {
         try {
           const response = await api.post('/auth/login', credentials);
 
-          const decodedPayload = jwt.decode(response.data.access_token) as DecodedPayloadType;
+          if (response.status === 200) {
+            console.log('status 200');
+            const decodedPayload = jwt.decode(response.data.access_token) as DecodedPayloadType;
 
-          if (decodedPayload) {
-            const user = {
-              id: decodedPayload.userId,
-              name: decodedPayload.name,
-              email: decodedPayload.email,
-              profileId: decodedPayload.profileId,
-              token: response.data.access_token,
-            };
-            console.log('authorize');
-            console.log(user);
-            return user;
-          } else {
-            console.log('decodedPayload not found');
-            return null;
+            if (decodedPayload) {
+              const user = {
+                id: decodedPayload.userId,
+                name: decodedPayload.name,
+                email: decodedPayload.email,
+                profileId: decodedPayload.profileId,
+                token: response.data.access_token,
+              };
+              console.log('authorize');
+              console.log(user);
+              return user;
+            } else {
+              console.log('decodedPayload not found');
+              return null;
+            }
+
+          }else{
+            console.log('log else');
           }
 
-
-        } catch (error) {
-          console.log(error);
-          return null;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+          console.log(error.response.data.message);
+          throw new Error(error.response.data.message);
         }
 
       }
@@ -60,28 +66,15 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async jwt({ token, user, account, profile, isNewUser, trigger, session }: any) {
+    async jwt({ token, user }: any) {
 
-      console.log('token');
-      console.log(token);
-      console.log('user');
-      console.log(user);
-      console.log('account');
-      console.log(account);
-      console.log('profile');
-      console.log(profile);
-      console.log('isNewUser');
-      console.log(isNewUser);
-      console.log('trigger');
-      console.log(trigger);
-      console.log('session');
-      console.log(session);
-      return token;
+      return { ...token, ...user };
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async session({ session, token, user, newSession, trigger }: any): Promise<any> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+    async session({ session, token, user }: any): Promise<any> {
 
-      console.log(session, token, user, newSession, trigger);
+      session.user = token;
+
       return session;
     },
   },

@@ -5,7 +5,7 @@ import { signOut } from 'next-auth/react';
 export default function Logout() {
   return (
     <React.Fragment>
-      <div className={'group cursor-pointer relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4'}>
+      <div onClick={() => signOut()} className={'group cursor-pointer relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4'}>
         <svg
           className="fill-current"
           width="18"
@@ -35,7 +35,7 @@ export default function Logout() {
             </clipPath>
           </defs>
         </svg>
-        <span onClick={() => signOut()} className={'group relative flex items-center gap-2.5 rounded-md  font-medium text-bodydark2 duration-300 ease-in-out hover:text-white'}>
+        <span className={'group relative flex items-center gap-2.5 rounded-md  font-medium text-bodydark2 duration-300 ease-in-out hover:text-white'}>
           Sair do sistema
         </span>
       </div>
