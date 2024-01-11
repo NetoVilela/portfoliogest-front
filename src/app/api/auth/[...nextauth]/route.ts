@@ -8,6 +8,7 @@ type DecodedPayloadType = {
   name: string,
   email: string,
   profileId: string,
+  profileName: string,
   token: string
 }
 
@@ -36,6 +37,7 @@ export const authOptions: NextAuthOptions = {
                 name: decodedPayload.name,
                 email: decodedPayload.email,
                 profileId: decodedPayload.profileId,
+                profileName: decodedPayload.profileName,
                 token: response.data.access_token,
               };
               return user;

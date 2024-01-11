@@ -8,6 +8,7 @@ declare module 'next-auth' {
       name: string,
       email: string,
       profileId: number,
+      profileName: string,
       iat: number,
       exp: number,
       accessToken: string;

@@ -20,6 +20,7 @@
     "axios": "^1.6.5",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
+    "framer-motion": "^10.18.0",
     "jsonwebtoken": "^9.0.2",
     "jsvectormap": "^1.5.3",
     "next": "14.0.4",

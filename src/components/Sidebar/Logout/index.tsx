@@ -35,7 +35,7 @@ export default function Logout() {
             </clipPath>
           </defs>
         </svg>
-        <span className={'group relative flex items-center gap-2.5 rounded-md  font-medium text-bodydark2 duration-300 ease-in-out hover:text-white'}>
+        <span className={'group relative flex items-center gap-2.5 rounded-md  font-medium duration-300 ease-in-out text-bodydark1'}>
           Sair do sistema
         </span>
       </div>

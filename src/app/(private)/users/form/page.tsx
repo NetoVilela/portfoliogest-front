@@ -172,7 +172,7 @@ const Settings = () => {
 					</div>
 
 					<div className="grid-cols-12 flex justify-end gap-4.5 mt-5">
-						<Button title="Cadastrar" loading={isLoadingSubmit} />
+						<Button  title="Cadastrar" loading={isLoadingSubmit} />
 					</div>
 
 				</form>
