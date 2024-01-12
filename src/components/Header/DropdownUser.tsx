@@ -8,7 +8,6 @@ import { signOut } from 'next-auth/react';
 
 const DropdownUser = () => {
 	const {data: session} = useSession();
-	console.log(session);
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any

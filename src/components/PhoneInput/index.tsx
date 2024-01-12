@@ -1,7 +1,6 @@
 import { LuPhone } from 'react-icons/lu';
 import { PatternFormat } from 'react-number-format';
 
-
 type Props = {
   error: boolean;
   helperText: string;
