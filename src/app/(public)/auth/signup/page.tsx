@@ -7,19 +7,89 @@ import { MdOutlineEmail } from 'react-icons/md';
 import { LuPhone } from 'react-icons/lu';
 import { PatternFormat } from 'react-number-format';
 import { CiLock } from 'react-icons/ci';
+import createUserSchema from './schemas/createUser.schema';
+import { FieldValues, useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import api from '@/services/api';
+import { zodResolver } from '@hookform/resolvers/zod';
+import HelperText from '@/components/HelperText';
+import { useRouter } from 'next/navigation';
+
+type AlertType = {
+	success: boolean;
+	message: string;
+}
 
 
 const SignUp: React.FC = () => {
+	const { register, handleSubmit, setValue, reset, watch, formState: { errors } } = useForm({ resolver: zodResolver(createUserSchema) });
+	const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
+	const [alert, setAlert] = useState<AlertType>();
+	const router = useRouter();
+
+	useEffect(() => {
+		setValue('phone', '');
+	}, []);
+
+	const createUser = async (data: FieldValues) => {
+		setIsLoadingSubmit(true);
+		const { name, email, password, phone } = data;
+		const obj = { name, email, password, phone };
+
+		try {
+			const responseUser = await api.post('/users', obj);
+
+			if (responseUser.status === 201) {
+				reset({
+					name: '',
+					phone: '',
+					email: '',
+					password: '',
+					repeatPassword: '',
+				});
+				setAlert({
+					success: true,
+					message: 'Usuário cadastrado com sucesso!'
+				});
+				setTimeout(() => {
+					router.push('/auth/login');
+				}, 1500);
+			}
+
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (e: any) {
+			setAlert({
+				success: false,
+				message: e.response.data.message
+			});
+			console.log(e);
+		}
+
+		setIsLoadingSubmit(false);
+	};
+
+
 	return (
 		<>
-
 			<title>Cadastre-se</title>
 
 			<div className="flex flex-col justify-center items-center h-screen">
-				<div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+				<div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark p-1">
+					{alert && !isLoadingSubmit && (
+						<div className={`flex items-center ${alert.success ? 'bg-meta-3' : 'bg-meta-1'}  text-white text-sm font-bold px-4 2xsm:py-3 sm:py-4`} role="alert">
+							<div className='flex w-full justify-center items-center text-xl'>
+								{!alert.success && (
+									<svg className="fill-current w-4 h-4 mr-2" data-slot="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+										<path clipRule="evenodd" fillRule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path>
+									</svg>
+								)}
+								<p className='text-sm'>{alert.message}</p>
+							</div>
+						</div>
+					)}
 					<div className="flex flex-wrap items-center">
 						<div className="hidden w-full xl:block xl:w-1/2">
-							<div className="py-17.5 px-26 text-center">
+							<div className=" px-26 text-center">
 								<Link className="mb-5.5 inline-block" href="/">
 									<Brand />
 								</Link>
@@ -159,26 +229,34 @@ const SignUp: React.FC = () => {
 								</h2>
 								<span className="mb-9 block font-medium">Desfrute de uma gestão gratuita de portfolios</span>
 
-								<form>
-									<Input
-										label="Nome"
-										name="name"
-										type="text"
-										icon={<AiOutlineUser />}
-										placeholder="Informe seu nome"
-										required
-									/>
+								<form noValidate onSubmit={handleSubmit(createUser)}>
+									<div className="mb-2">
+										<Input
+											label="Nome"
+											register={register}
+											name="name"
+											type="text"
+											icon={<AiOutlineUser />}
+											placeholder="Informe seu nome"
+											required
+										/>
+										<HelperText message={errors.name?.message as string} />
+									</div>
 
-									<Input
-										label="Email"
-										name="email"
-										type="email"
-										icon={<MdOutlineEmail />}
-										placeholder="Informe seu e-mail"
-										required
-									/>
+									<div className="mb-2">
+										<Input
+											label="Email"
+											register={register}
+											name="email"
+											type="email"
+											icon={<MdOutlineEmail />}
+											placeholder="Informe seu e-mail"
+											required
+										/>
+										<HelperText message={errors.email?.message as string} />
+									</div>
 
-									<div className="w-full mb-4">
+									<div className="w-full mb-2">
 										<label className="mb-1 block font-medium text-black dark:text-white" htmlFor="phoneNumber">
 											Celular
 										</label>
@@ -191,42 +269,63 @@ const SignUp: React.FC = () => {
 												format="(##) # ####-####"
 												placeholder="(99) 9 9999-9999"
 												autoComplete='tel-national'
-												className="w-full rounded border border-stroke  pl-11.5 pr-4.5 py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none  dark:focus:border-primary"
-												value={''}
+												className="w-full rounded border border-stroke pl-11.5 pr-4.5 py-4 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+												value={watch('phone')}
+												onValueChange={(values) => {
+													setValue('phone', values.value);
+												}}
 											/>
 										</div>
+										<HelperText message={errors.phone?.message as string} />
 									</div>
 
-									<Input
-										label="Senha"
-										name="password"
-										type="password"
-										icon={<CiLock />}
-										placeholder="Informe sua senha"
-										required
-									/>
-
-									<Input
-										label="Repita sua senha"
-										name="passwordAgain"
-										type="password"
-										icon={<CiLock />}
-										placeholder="Informe sua senha"
-										required
-									/>
-									
-									<div className="mb-5">
-										<input
-											type="submit"
-											value="Criar conta"
-											className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
+									<div className="mb-2">
+										<Input
+											label="Senha"
+											register={register}
+											name="password"
+											type="password"
+											icon={<CiLock />}
+											placeholder="Informe sua senha"
+											required
 										/>
+										<HelperText message={errors.password?.message as string} />
+									</div>
+
+									<div className="mb-2">
+										<Input
+											label="Repita sua senha"
+											register={register}
+											name="repeatPassword"
+											type="password"
+											icon={<CiLock />}
+											placeholder="Informe sua senha"
+											required
+										/>
+										<HelperText message={errors.name?.message as string} />
+									</div>
+
+									<div className="mb-5 mt-6">
+										<button disabled={isLoadingSubmit} className='w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90'>
+											{
+												isLoadingSubmit ? (
+													<span className='text-center'>
+														<svg aria-hidden="true" role="status" className="w-full h-8 animate-spin " viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+															<path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"></path>
+															<path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"></path>
+														</svg>
+													</span>
+												) : (
+													<span className='text-md font-medium'>Criar conta</span>
+												)
+											}
+										</button>
 									</div>
 
 									<div className="mt-6 text-center">
 										<p>
 											Já possui uma conta?{' '}
-											<Link href="/auth/signin" className="text-primary">
+											<Link href="/auth/login" className="text-primary">
 												Faça login
 											</Link>
 										</p>
