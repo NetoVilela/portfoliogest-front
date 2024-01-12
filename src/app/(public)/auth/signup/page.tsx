@@ -73,8 +73,8 @@ const SignUp: React.FC = () => {
 		<>
 			<title>Cadastre-se</title>
 
-			<div className="flex flex-col justify-center items-center h-screen">
-				<div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark p-1">
+			<div className="flex flex-col justify-center items-center">
+				<div className="rounded-sm border border-stroke bg-white mt-3 shadow-default dark:border-strokedark dark:bg-boxdark">
 					{alert && !isLoadingSubmit && (
 						<div className={`flex items-center ${alert.success ? 'bg-meta-3' : 'bg-meta-1'}  text-white text-sm font-bold px-4 2xsm:py-3 sm:py-4`} role="alert">
 							<div className='flex w-full justify-center items-center text-xl'>
@@ -223,7 +223,7 @@ const SignUp: React.FC = () => {
 						</div>
 
 						<div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
-							<div className="w-full p-4 sm:p-12.5 xl:p-17.5">
+							<div className="w-full sm:p-12.5 xl:p-17.5">
 								<h2 className="mb-2 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
 									Faça sua conta
 								</h2>
