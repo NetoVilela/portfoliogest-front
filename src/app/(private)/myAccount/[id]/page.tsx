@@ -119,11 +119,11 @@ const MyAccount = () => {
 
         {showAlert && <Alert status={alert?.status || ''} title={alert?.title} description={alert?.description} />}
 
-        <form noValidate onSubmit={handleSubmit(onSumbit)}>
-          <div className="border-2 grid grid-cols-12 bg-white shadow-default dark:border-strokedark dark:bg-boxdark ">
+        <form noValidate onSubmit={handleSubmit(onSumbit)} className=' bg-white shadow-default dark:border-strokedark dark:bg-boxdark'>
+          <div className="grid grid-cols-1 md:grid-cols-2">
 
-            <div className="rounded-sm bg-white shadow-default dark:border-strokedark dark:bg-boxdark border-2 border-meta-1 col-span-8">
-              <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
+            <div className="rounded-sm border-2">
+              <div className="border-b border-stroke pt-4 pb-1 px-7 dark:border-strokedark">
                 <h3 className="font-medium text-black dark:text-white">
                   Informações pessoais
                 </h3>
@@ -187,19 +187,15 @@ const MyAccount = () => {
               </div>
             </div>
 
-            <div className="rounded-sm bg-white shadow-default dark:border-strokedark dark:bg-boxdark border-2 border-meta-3 col-span-4">
-              <div className="p-7">
+            <div className="rounded-sm border-2">
+              <div className="p-7 flex justify-center md:justify-end">
                 <UploadImage file={file} setFile={setFile} />
               </div>
             </div>
-            <div className='flex border-meta-1 border-2'>
-
-                <Button title="Atualizar" loading={isLoadingSubmit} />
-
-
-            </div>
           </div>
-
+          <div className='flex justify-end pb-3 pr-3'>
+              <Button title="Atualizar" loading={isLoadingSubmit} p={3} w={30} />
+          </div>
 
         </form>
 

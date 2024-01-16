@@ -51,7 +51,7 @@ export default function UploadImage({ file, setFile }: Props) {
           </div>
         </div>
       ) : (
-        <div id="FileUpload" className="relative mb-5.5 block w-full cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5">
+        <div id="FileUpload" className="relative mb-5.5 block w-full max-w-[300px] h-45 cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5">
           <input
             type="file"
             accept="image/*"

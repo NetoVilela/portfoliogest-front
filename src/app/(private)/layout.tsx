@@ -50,8 +50,8 @@ export default function RootLayout({ children }: Props) {
                 sidebarOpen={sidebarOpen}
                 setSidebarOpen={setSidebarOpen}
               />
-              <main className='mb-14'>
-                <div className="max-w-screen-2xl p-4 border-2 ">
+              <main className='flex-grow'>
+                <div className="p-4 ">
                   {children}
                 </div>
               </main>
