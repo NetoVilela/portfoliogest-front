@@ -1,4 +1,6 @@
 import React, { ChangeEvent, useState } from 'react';
+import Image from 'next/image';
+import { useSession } from 'next-auth/react';
 
 type Props = {
   file: File | null | undefined;
@@ -9,6 +11,7 @@ export default function UploadImage({ file, setFile }: Props) {
   // const [file, setFile] = useState<string>('');
   const [fileName, setFileName] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const { data: session } = useSession();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -51,32 +54,42 @@ export default function UploadImage({ file, setFile }: Props) {
           </div>
         </div>
       ) : (
-        <div id="FileUpload" className="relative mb-5.5 block w-full max-w-[300px] h-45 cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5">
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleChange}
-            className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
-          />
-          <div className="flex flex-col items-center justify-center space-y-3">
-            <p>
-              <span className="text-primary">Clique para escolher uma imagem</span>
-            </p>
-            <p className="mt-1.5">JPG, JPEG ou PNG</p>
-            <p>(Tamanho máximo: 10MB)</p>
+
+        session?.user.avatarUrl ? (
+
+          <div className='flex flex-col'>
+            <Image
+              width={300}
+              height={45}
+              src={session?.user.avatarUrl}
+              alt="User"
+              className='rounded-full'
+            />
+            <div className='z-2 border-2'>
+              aa
+            </div>
           </div>
-        </div>
+        ) : (
+          <div id="FileUpload" className="relative mb-5.5 block w-full max-w-[300px] h-45 cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleChange}
+              className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
+            />
+            <div className="flex flex-col items-center justify-center space-y-3">
+              <p>
+                <span className="text-primary">Clique para escolher uma imagem</span>
+              </p>
+              <p className="mt-1.5">JPG, JPEG ou PNG</p>
+              <p>(Tamanho máximo: 10MB)</p>
+            </div>
+          </div>
+        )
+
       )}
 
       {error && (<span className='text-meta-1'>{error}</span>)}
-      {/* 
-          <button
-            className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-95"
-            type="submit"
-          >
-            Salvar
-          </button> 
-          */}
     </>
   );
 }

@@ -14,6 +14,7 @@ declare module 'next-auth' {
       iat: number,
       exp: number,
       accessToken: string;
+      avatarUrl: string;
     }
   }
 }

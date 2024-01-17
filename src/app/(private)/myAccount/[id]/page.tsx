@@ -2,7 +2,6 @@
 import Breadcrumb from '@/components/Breadcrumbs/Breadcrumb';
 import { LuLock, LuMail, LuUser2 } from 'react-icons/lu';
 import { FieldValues, useForm } from 'react-hook-form';
-import api from '@/services/api';
 import { useEffect, useState } from 'react';
 import Button from '@/components/Button';
 import Alert from '@/components/Alert';
@@ -12,6 +11,8 @@ import Input from '@/components/Input';
 import UploadImage from '@/components/UploadImage';
 import { useParams } from 'next/navigation';
 import useAxiosAuth from '@/services/hooks/useAxiosAuth';
+import editMyAccountSChema from './schemas/editMyAccount.schema';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 const PASSWORD_HASH_DEFAULT = 'ASDI75DAKS';
 
@@ -20,7 +21,7 @@ const MyAccount = () => {
   const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
   const [alert, setAlert] = useState<AlertType>();
   const [showAlert, setShowAlert] = useState<boolean>(false);
-  const { register, handleSubmit, setValue, reset, watch, formState: { errors } } = useForm();
+  const { register, handleSubmit, setValue, reset, watch, formState: { errors } } = useForm({ resolver: zodResolver(editMyAccountSChema) });
   const [file, setFile] = useState<File | null>();
   const axiosAuth = useAxiosAuth();
 
@@ -57,13 +58,14 @@ const MyAccount = () => {
     const obj = {
       name,
       ...(password !== PASSWORD_HASH_DEFAULT && { password }),
-      phone
+      phone,
+      status: true,
     };
 
     try {
-      const responseUser = await api.post('/users', obj);
+      const responseUser = await axiosAuth.put(`/users/${id}`, obj);
 
-      if (responseUser.status === 201) {
+      if (responseUser.status === 200) {
 
         if (file instanceof File) {
           const formData = new FormData();
@@ -72,7 +74,7 @@ const MyAccount = () => {
           formData.append('userId', id);
 
           try {
-            await api.post(
+            await axiosAuth.post(
               '/images/upload-avatar',
               formData,
               {
@@ -88,16 +90,8 @@ const MyAccount = () => {
 
         }
 
-        setAlert({ status: 'success', title: 'Usuário cadastrado com sucesso', description: 'Acesse a listagem para acompanhar o registro' });
+        setAlert({ status: 'success', title: 'Dados editados com sucesso!', description: '' });
         setShowAlert(true);
-
-        reset({
-          name: '',
-          phone: '',
-          email: '',
-          password: '',
-          repeatPassword: '',
-        });
         setFile(null);
       }
 
@@ -120,14 +114,14 @@ const MyAccount = () => {
         {showAlert && <Alert status={alert?.status || ''} title={alert?.title} description={alert?.description} />}
 
         <form noValidate onSubmit={handleSubmit(onSumbit)} className=' bg-white shadow-default dark:border-strokedark dark:bg-boxdark'>
+          <div className="border-b border-stroke pt-4 pb-1 px-7 dark:border-strokedark">
+            <h3 className="font-medium text-black dark:text-white">
+              Informações pessoais
+            </h3>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2">
 
-            <div className="rounded-sm border-2">
-              <div className="border-b border-stroke pt-4 pb-1 px-7 dark:border-strokedark">
-                <h3 className="font-medium text-black dark:text-white">
-                  Informações pessoais
-                </h3>
-              </div>
+            <div className="rounded-sm">
               <div className="p-7">
                 <div className="flex flex-col gap-5.5 sm:flex-row">
                   <Input
@@ -187,14 +181,14 @@ const MyAccount = () => {
               </div>
             </div>
 
-            <div className="rounded-sm border-2">
+            <div className="rounded-sm">
               <div className="p-7 flex justify-center md:justify-end">
                 <UploadImage file={file} setFile={setFile} />
               </div>
             </div>
           </div>
           <div className='flex justify-end pb-3 pr-3'>
-              <Button title="Atualizar" loading={isLoadingSubmit} p={3} w={30} />
+            <Button title="Salvar" loading={isLoadingSubmit} p={2} w={50} />
           </div>
 
         </form>
