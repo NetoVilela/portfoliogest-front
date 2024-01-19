@@ -1,6 +1,9 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
+import { MdPhotoCamera } from 'react-icons/md';
+import { MdDelete } from 'react-icons/md';
+
 
 type Props = {
   file: File | null | undefined;
@@ -12,6 +15,7 @@ export default function UploadImage({ file, setFile }: Props) {
   const [fileName, setFileName] = useState<string>('');
   const [error, setError] = useState<string>('');
   const { data: session } = useSession();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -39,10 +43,50 @@ export default function UploadImage({ file, setFile }: Props) {
     <>
       {file ? (
         <div className='flex flex-col items-center justify-center'>
-          <div className="mb-5.5 ">
-            <img src={URL.createObjectURL(file)} alt="Uploaded Image" className="max-w-[300px] h-45" />
+          <div className="mb-5.5 relative">
+            <Image
+              width={300}
+              height={300}
+              src={URL.createObjectURL(file)}
+              alt="User"
+              className='rounded-full object-cover min-w-75 min-h-75 max-w-75 max-h-75'
+            />
+            <div className='absolute bottom-64 left-60 p-2'>
+              <div onClick={handleCancel} className='w-8 h-8 rounded-full border-primary hover:brightness-90 border-2 text-white flex justify-center items-center bg-primary transition-all cursor-pointer'>
+              <MdDelete />
+              </div>
+            </div>
             <span>{fileName}</span>
-            <div className='mt-5'>
+          </div>
+        </div>
+      ) : (
+
+        session?.user.avatarUrl ? (
+
+          <div className="">
+            <div className='relative'>
+              <Image
+                width={300}
+                height={45}
+                src={session?.user.avatarUrl}
+                alt="User"
+                className='rounded-full'
+              />
+              <div className='absolute bottom-64 left-54 p-2'>
+                <label htmlFor="fileInput" className='w-8 h-8 rounded-full border-primary hover:brightness-90 border-2 text-white flex justify-center items-center bg-primary transition-all cursor-pointer'>
+                  <MdPhotoCamera />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleChange}
+                    className="hidden"
+                    id="fileInput"
+                    ref={fileInputRef}
+                  />
+                </label>
+              </div>
+            </div>
+            <div className='flex justify-center mt-5'>
               <button
                 onClick={handleCancel}
                 className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
@@ -50,23 +94,6 @@ export default function UploadImage({ file, setFile }: Props) {
               >
                 Remover imagem
               </button>
-            </div>
-          </div>
-        </div>
-      ) : (
-
-        session?.user.avatarUrl ? (
-
-          <div className='flex flex-col'>
-            <Image
-              width={300}
-              height={45}
-              src={session?.user.avatarUrl}
-              alt="User"
-              className='rounded-full'
-            />
-            <div className='z-2 border-2'>
-              aa
             </div>
           </div>
         ) : (
