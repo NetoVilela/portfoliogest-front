@@ -73,7 +73,7 @@ const SignUp: React.FC = () => {
 		<>
 			<title>Cadastre-se</title>
 
-			<div className="flex flex-col justify-center items-center h-screen">
+			<div className="flex flex-col justify-center items-center h-screen p-2">
 				<div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark p-1">
 					{alert && !isLoadingSubmit && (
 						<div className={`flex items-center ${alert.success ? 'bg-meta-3' : 'bg-meta-1'}  text-white text-sm font-bold px-4 2xsm:py-3 sm:py-4`} role="alert">

@@ -48,7 +48,7 @@ export default function SignIn() {
 		<>
 			<title>Login</title>
 
-			<div className="flex flex-col justify-center items-center h-screen p-10">
+			<div className="flex flex-col justify-center items-center h-screen p-2">
 
 				<div className="md:w-180 xl:w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
 					<div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
