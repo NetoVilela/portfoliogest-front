@@ -30,5 +30,5 @@ export const SidebarHeader = ({ children }: Props) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
