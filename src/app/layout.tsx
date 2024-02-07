@@ -20,6 +20,7 @@ export default function RootLayout({ children, }: { children: React.ReactNode; }
             </div>
           </div>
         </div>
+
       </body>
     </html>
   );

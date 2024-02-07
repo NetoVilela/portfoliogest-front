@@ -2,6 +2,7 @@ import { SidebarHeader } from '@/components/SidebarHeader';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]/options';
 import { redirect } from 'next/navigation';
+import Footer from '@/components/Footer';
 
 type Props = {
   children: React.ReactNode;

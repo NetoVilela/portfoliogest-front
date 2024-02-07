@@ -11,9 +11,10 @@ type Props = {
   classNameProps?: string;
   type?: string;
   register: (name: string, options?: RegisterOptions<FieldValues, string> | undefined) => UseFormRegisterReturn<string>
+  disabled?: boolean;
 };
 
-export default function Input({label, classNameProps, name, icon, placeholder, error, helperText, type='text', register}: Props) {
+export default function Input({label, classNameProps, name, icon, placeholder, error, helperText, type='text', register, disabled=false}: Props) {
   classNameProps = classNameProps ??  'w-full sm:w-1/2 ';
   return (
     <div className={`${classNameProps} mb-2`}>
@@ -21,14 +22,15 @@ export default function Input({label, classNameProps, name, icon, placeholder, e
         {label}
       </label>
       <div className="relative">
-        <span className="absolute left-4.5 top-4">
+        <span className="absolute left-4.5 top-3">
           {icon}
         </span>
         <input
-          className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+          className="w-full rounded border border-stroke bg-gray-3 py-2 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
           type={type}
           {...register(name)}
           placeholder={placeholder}
+          disabled={disabled}
         />
         {error && <p className="text-danger text-xs mt-1 font-medium"><>{helperText}</></p>}
       </div>

@@ -5,9 +5,8 @@ import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { signOut } from 'next-auth/react';
 
-
 const DropdownUser = () => {
-	const {data: session} = useSession();
+	const { data: session } = useSession();
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -21,8 +20,8 @@ const DropdownUser = () => {
 			if (!dropdown.current) return;
 			if (
 				!dropdownOpen ||
-        dropdown.current.contains(target) ||
-        trigger.current.contains(target)
+				dropdown.current.contains(target) ||
+				trigger.current.contains(target)
 			)
 				return;
 			setDropdownOpen(false);
@@ -51,18 +50,20 @@ const DropdownUser = () => {
 			>
 				<span className="hidden text-right lg:block">
 					<span className="block text-sm font-medium text-black dark:text-white">
-            {session?.user.name}
+						{session?.user.name}
 					</span>
 					<span className="block text-xs">{session?.user.profileName}</span>
 				</span>
 
-				<span className="h-12 w-12 rounded-full">
-					<Image
-						width={112}
-						height={112}
-						src={'/images/user/user-01.png'}
-						alt="User"
-					/>
+				<span className="h-12 w-12 rounded-full  overflow-hidden">
+					{session?.user.avatarUrl && (
+						<Image
+							width={48}
+							height={48}
+							src={session?.user.avatarUrl}
+							alt="User"
+						/>
+					)}
 				</span>
 
 				<svg
@@ -87,14 +88,13 @@ const DropdownUser = () => {
 				ref={dropdown}
 				onFocus={() => setDropdownOpen(true)}
 				onBlur={() => setDropdownOpen(false)}
-				className={`absolute right-0 mt-4 flex w-62.5 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark ${
-					dropdownOpen === true ? 'block' : 'hidden'
-				}`}
+				className={`absolute right-0 mt-4 flex w-62.5 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark ${dropdownOpen === true ? 'block' : 'hidden'
+					}`}
 			>
 				<ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7.5 dark:border-strokedark">
 					<li>
 						<Link
-							href="/profile"
+							href={`/myAccount/${session?.user?.id}`}
 							className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
 						>
 							<svg
@@ -114,7 +114,7 @@ const DropdownUser = () => {
 									fill=""
 								/>
 							</svg>
-              My Profile
+							Minha conta
 						</Link>
 					</li>
 					<li>
@@ -135,7 +135,7 @@ const DropdownUser = () => {
 									fill=""
 								/>
 							</svg>
-              My Contacts
+							My Contacts
 						</Link>
 					</li>
 					<li>
@@ -160,11 +160,11 @@ const DropdownUser = () => {
 									fill=""
 								/>
 							</svg>
-              Account Settings
+							Account Settings
 						</Link>
 					</li>
 				</ul>
-				<button onClick={() => {signOut();}} className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+				<button onClick={() => { signOut(); }} className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
 					<svg
 						className="fill-current"
 						width="22"
@@ -182,7 +182,7 @@ const DropdownUser = () => {
 							fill=""
 						/>
 					</svg>
-          Sair do sistema
+					Sair do sistema
 				</button>
 			</div>
 			{/* <!-- Dropdown End --> */}

@@ -1,4 +1,9 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useRef, useState } from 'react';
+import Image from 'next/image';
+import { useSession } from 'next-auth/react';
+import { MdPhotoCamera } from 'react-icons/md';
+import { MdDelete } from 'react-icons/md';
+
 
 type Props = {
   file: File | null | undefined;
@@ -9,6 +14,8 @@ export default function UploadImage({ file, setFile }: Props) {
   // const [file, setFile] = useState<string>('');
   const [fileName, setFileName] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const { data: session } = useSession();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -36,10 +43,50 @@ export default function UploadImage({ file, setFile }: Props) {
     <>
       {file ? (
         <div className='flex flex-col items-center justify-center'>
-          <div className="mb-5.5 ">
-            <img src={URL.createObjectURL(file)} alt="Uploaded Image" className="max-w-[300px] h-45" />
+          <div className="mb-5.5 relative">
+            <Image
+              width={300}
+              height={300}
+              src={URL.createObjectURL(file)}
+              alt="User"
+              className='rounded-full object-cover min-w-75 min-h-75 max-w-75 max-h-75'
+            />
+            <div className='absolute bottom-64 left-60 p-2'>
+              <div onClick={handleCancel} className='w-8 h-8 rounded-full border-primary hover:brightness-90 border-2 text-white flex justify-center items-center bg-primary transition-all cursor-pointer'>
+              <MdDelete />
+              </div>
+            </div>
             <span>{fileName}</span>
-            <div className='mt-5'>
+          </div>
+        </div>
+      ) : (
+
+        session?.user.avatarUrl ? (
+
+          <div className="">
+            <div className='relative'>
+              <Image
+                width={300}
+                height={45}
+                src={session?.user.avatarUrl}
+                alt="User"
+                className='rounded-full'
+              />
+              <div className='absolute bottom-64 left-54 p-2'>
+                <label htmlFor="fileInput" className='w-8 h-8 rounded-full border-primary hover:brightness-90 border-2 text-white flex justify-center items-center bg-primary transition-all cursor-pointer'>
+                  <MdPhotoCamera />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleChange}
+                    className="hidden"
+                    id="fileInput"
+                    ref={fileInputRef}
+                  />
+                </label>
+              </div>
+            </div>
+            <div className='flex justify-center mt-5'>
               <button
                 onClick={handleCancel}
                 className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
@@ -49,34 +96,27 @@ export default function UploadImage({ file, setFile }: Props) {
               </button>
             </div>
           </div>
-        </div>
-      ) : (
-        <div id="FileUpload" className="relative mb-5.5 block w-full cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5">
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleChange}
-            className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
-          />
-          <div className="flex flex-col items-center justify-center space-y-3">
-            <p>
-              <span className="text-primary">Clique para escolher uma imagem</span>
-            </p>
-            <p className="mt-1.5">JPG, JPEG ou PNG</p>
-            <p>(Tamanho máximo: 10MB)</p>
+        ) : (
+          <div id="FileUpload" className="relative mb-5.5 block w-full max-w-[300px] h-45 cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleChange}
+              className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
+            />
+            <div className="flex flex-col items-center justify-center space-y-3">
+              <p>
+                <span className="text-primary">Clique para escolher uma imagem</span>
+              </p>
+              <p className="mt-1.5">JPG, JPEG ou PNG</p>
+              <p>(Tamanho máximo: 10MB)</p>
+            </div>
           </div>
-        </div>
+        )
+
       )}
 
       {error && (<span className='text-meta-1'>{error}</span>)}
-      {/* 
-          <button
-            className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-95"
-            type="submit"
-          >
-            Salvar
-          </button> 
-          */}
     </>
   );
 }

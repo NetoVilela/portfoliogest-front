@@ -9,7 +9,8 @@ type DecodedPayloadType = {
   email: string,
   profileId: string,
   profileName: string,
-  token: string
+  token: string,
+  avatarFilePath: string,
 }
 
 export const authOptions: NextAuthOptions = {
@@ -30,7 +31,6 @@ export const authOptions: NextAuthOptions = {
 
           if (response.status === 200) {
             const decodedPayload = jwt.decode(response.data.access_token) as DecodedPayloadType;
-            console.log('aa');
             if (decodedPayload) {
               const user = {
                 id: decodedPayload.userId,
@@ -39,6 +39,7 @@ export const authOptions: NextAuthOptions = {
                 profileId: decodedPayload.profileId,
                 profileName: decodedPayload.profileName,
                 token: response.data.access_token,
+                avatarUrl: `${process.env.NEXT_PUBLIC_API_BASE_URL}/${decodedPayload.avatarFilePath}`,
               };
               return user;
             } else {

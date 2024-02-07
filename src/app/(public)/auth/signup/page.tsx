@@ -223,7 +223,7 @@ const SignUp: React.FC = () => {
 						</div>
 
 						<div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
-							<div className="w-full p-4 sm:p-12.5 xl:p-17.5">
+							<div className="w-full sm:p-12.5 xl:p-17.5">
 								<h2 className="mb-2 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
 									Faça sua conta
 								</h2>
