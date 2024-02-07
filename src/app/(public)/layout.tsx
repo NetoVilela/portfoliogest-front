@@ -1,43 +1,28 @@
-'use client';
-import '../globals.css';
-import '../data-tables-css.css';
-import '../satoshi.css';
-import Footer from '@/components/Footer';
-// import { useState, useEffect } from 'react';
-// import Loader from '@/components/common/Loader';
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]/options";
+import { redirect } from "next/navigation";
 
 type Props = {
 	children: React.ReactNode;
 }
-export default function PublicLayout({ children, }: Props) {
+export default async function PublicLayout({ children, }: Props) {
+	const session = await getServerSession(authOptions);
 
-	// const [loading, setLoading] = useState<boolean>(true);
-
-	// useEffect(() => {
-	// 	setLoading(false);
-	// }, []);
+	if (session) {
+		redirect("/");
+	}
 
 	return (
 		<>
-			{/* <div className="dark:bg-boxdark-2 dark:text-bodydark">
-				{loading ? (
-					<Loader />
-				) : ( */}
 			<div className="flex h-screen overflow-hidden">
 				<div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
-
 					<main>
 						<div className="mx-auto max-w-screen-2xl">
 							{children}
 						</div>
 					</main>
-
-					<Footer />
 				</div>
 			</div>
-
-			{/* )}
-			</div> */}
 		</>
 	);
 }
