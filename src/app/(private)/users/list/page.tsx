@@ -1,16 +1,14 @@
 'use client';
 import Breadcrumb from '@/components/Breadcrumbs/Breadcrumb';
-// import api from '@/services/api';
-import useAxiosAuth from '@/services/hooks/useAxiosAuth';
+import api from '@/services/api';
 import { useEffect, } from 'react';
 
 const Profile = () => {
-	const axiosAuth = useAxiosAuth();
 
 	useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axiosAuth.get('/users');
+        const response = await api.get('/users');
         console.log(response);
       } catch (error) {
         console.log(error);
