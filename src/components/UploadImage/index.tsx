@@ -45,13 +45,13 @@ export default function UploadImage({ file, setFile }: Props) {
         <div className='flex flex-col items-center justify-center'>
           <div className="mb-5.5 relative">
             <Image
-              width={300}
-              height={300}
+              width={240}
+              height={240}
               src={URL.createObjectURL(file)}
               alt="User"
-              className='rounded-full object-cover min-w-75 min-h-75 max-w-75 max-h-75'
+              className='rounded-full object-cover min-w-60 min-h-60 max-w-60 max-h-60'
             />
-            <div className='absolute bottom-64 left-60 p-2'>
+            <div className='absolute bottom-50 left-50 p-2'>
               <div onClick={handleCancel} className='w-8 h-8 rounded-full border-primary hover:brightness-90 border-2 text-white flex justify-center items-center bg-primary transition-all cursor-pointer'>
                 <MdDelete />
               </div>
@@ -66,14 +66,14 @@ export default function UploadImage({ file, setFile }: Props) {
           <div className="">
             <div className='relative'>
               <Image
-                width={300}
-                height={45}
+                width={240}
+                height={240}
                 src={session?.user.avatarUrl}
                 alt="User"
-                className='rounded-full'
+                className='rounded-full object-cover min-w-60 min-h-60 max-w-60 max-h-60'
               />
-              <div className='absolute bottom-64 left-54 p-2'>
-                <label htmlFor="fileInput" className='w-8 h-8 rounded-full border-primary hover:brightness-90 border-2 text-white flex justify-center items-center bg-primary transition-all cursor-pointer'>
+                <div className='absolute bottom-50 left-50 p-2'>
+                  <label onClick={handleCancel} className='w-8 h-8 rounded-full border-primary hover:brightness-90 border-2 text-white flex justify-center items-center bg-primary transition-all cursor-pointer'>
                   <MdPhotoCamera />
                   <input
                     type="file"

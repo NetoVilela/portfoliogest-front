@@ -63,12 +63,10 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async jwt({ token, user }: any) {
-
       return { ...token, ...user };
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
     async session({ session, token, user }: any): Promise<any> {
-
       session.user = token;
       session.user.accessToken = token.token;
 
