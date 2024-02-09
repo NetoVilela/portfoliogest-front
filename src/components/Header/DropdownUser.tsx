@@ -55,16 +55,20 @@ const DropdownUser = () => {
 					<span className="block text-xs">{session?.user.profileName}</span>
 				</span>
 
-				<span className="h-12 w-12 rounded-full  overflow-hidden">
-					{session?.user.avatarUrl && (
+				{session?.user.avatarUrl ? (
+					<span className="h-12 w-12 rounded-full  overflow-hidden">
 						<Image
 							width={48}
 							height={48}
 							src={session?.user.avatarUrl}
 							alt="User"
 						/>
-					)}
-				</span>
+					</span>
+				) : (
+					<div className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-bodydark2 rounded-full dark:bg-gray-600">
+						<span className="font-medium text-white dark:text-gray-300">{session?.user.name[0].toLocaleUpperCase()}</span>
+					</div>
+				)}
 
 				<svg
 					className="hidden fill-current sm:block"

@@ -53,7 +53,7 @@ export default function UploadImage({ file, setFile }: Props) {
             />
             <div className='absolute bottom-64 left-60 p-2'>
               <div onClick={handleCancel} className='w-8 h-8 rounded-full border-primary hover:brightness-90 border-2 text-white flex justify-center items-center bg-primary transition-all cursor-pointer'>
-              <MdDelete />
+                <MdDelete />
               </div>
             </div>
             <span>{fileName}</span>
@@ -97,7 +97,10 @@ export default function UploadImage({ file, setFile }: Props) {
             </div>
           </div>
         ) : (
-          <div id="FileUpload" className="relative mb-5.5 block w-full max-w-[300px] h-45 cursor-pointer appearance-none rounded border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5">
+          <div
+            id="FileUpload"
+            className="flex justify-center items-center relative mb-5.5 w-60 h-60 cursor-pointer appearance-none rounded-full border-2 border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-7.5"
+          >
             <input
               type="file"
               accept="image/*"
@@ -105,7 +108,7 @@ export default function UploadImage({ file, setFile }: Props) {
               className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
             />
             <div className="flex flex-col items-center justify-center space-y-3">
-              <p>
+              <p className='text-center'>
                 <span className="text-primary">Clique para escolher uma imagem</span>
               </p>
               <p className="mt-1.5">JPG, JPEG ou PNG</p>

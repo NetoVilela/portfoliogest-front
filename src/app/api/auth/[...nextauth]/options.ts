@@ -39,7 +39,7 @@ export const authOptions: NextAuthOptions = {
                 profileId: decodedPayload.profileId,
                 profileName: decodedPayload.profileName,
                 token: response.data.access_token,
-                avatarUrl: `${process.env.NEXT_PUBLIC_API_BASE_URL}/${decodedPayload.avatarFilePath}`,
+                avatarUrl: decodedPayload.avatarFilePath ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/${decodedPayload.avatarFilePath}` : null,
               };
               return user;
             } else {

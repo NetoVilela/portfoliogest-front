@@ -10,9 +10,10 @@ import PhoneInput from '@/components/PhoneInput';
 import Input from '@/components/Input';
 import UploadImage from '@/components/UploadImage';
 import { useParams } from 'next/navigation';
-import useAxiosAuth from '@/services/hooks/useAxiosAuth';
+// import useAxiosAuth from '@/services/hooks/useAxiosAuth';
 import editMyAccountSChema from './schemas/editMyAccount.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import api from "@/services/api";
 
 const PASSWORD_HASH_DEFAULT = 'ASDI75DAKS';
 
@@ -23,15 +24,13 @@ const MyAccount = () => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const { register, handleSubmit, setValue, reset, watch, formState: { errors } } = useForm({ resolver: zodResolver(editMyAccountSChema) });
   const [file, setFile] = useState<File | null>();
-  const axiosAuth = useAxiosAuth();
+  // const axiosAuth = useAxiosAuth();
 
   useEffect(() => {
 
     const fetchData = async () => {
       try {
-        const response = await axiosAuth.get(`/users/${id}`);
-        console.log(response.data);
-
+        const response = await api.get(`/users/${id}`);
         const { name, email, phone } = response.data;
 
         reset({
@@ -63,7 +62,7 @@ const MyAccount = () => {
     };
 
     try {
-      const responseUser = await axiosAuth.put(`/users/${id}`, obj);
+      const responseUser = await api.put(`/users/${id}`, obj);
 
       if (responseUser.status === 200) {
 
@@ -74,13 +73,13 @@ const MyAccount = () => {
           formData.append('userId', id);
 
           try {
-            await axiosAuth.post(
+            await api.post(
               '/images/upload-avatar',
               formData,
               {
                 headers: {
                   'Content-Type': 'multipart/form-data',
-                  'Authorization': '',
+                  'Authorization': 'Bearer',
                 },
               }
             );
@@ -120,6 +119,12 @@ const MyAccount = () => {
             </h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2">
+
+            <div className="rounded-sm">
+              <div className="p-7 flex justify-center">
+                <UploadImage file={file} setFile={setFile} />
+              </div>
+            </div>
 
             <div className="rounded-sm">
               <div className="p-7">
@@ -181,11 +186,6 @@ const MyAccount = () => {
               </div>
             </div>
 
-            <div className="rounded-sm">
-              <div className="p-7 flex justify-center md:justify-end">
-                <UploadImage file={file} setFile={setFile} />
-              </div>
-            </div>
           </div>
           <div className='flex justify-end pb-3 pr-3'>
             <Button title="Salvar" loading={isLoadingSubmit} p={2} w={50} />
