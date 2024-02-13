@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
-import { MdPhotoCamera } from 'react-icons/md';
 import { MdDelete } from 'react-icons/md';
+import { SlOptionsVertical } from "react-icons/sl";
 
 
 type Props = {
@@ -15,7 +15,12 @@ export default function UploadImage({ file, setFile }: Props) {
   const [fileName, setFileName] = useState<string>('');
   const [error, setError] = useState<string>('');
   const { data: session } = useSession();
+  const [showOptions, setShowOptions] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const toggleOptions = () => {
+    setShowOptions(prev => !prev);
+  };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -38,6 +43,14 @@ export default function UploadImage({ file, setFile }: Props) {
     setFile(null);
     setError('');
   };
+
+  const handleRemoveImage = () => {
+    if (window.confirm("Deseja realmente remover essa imagem?")) {
+      console.log("Imagem removida");
+    }
+  };
+
+  console.log(session?.user.avatarUrl);
 
   return (
     <>
@@ -63,7 +76,7 @@ export default function UploadImage({ file, setFile }: Props) {
 
         session?.user.avatarUrl ? (
 
-          <div className="">
+          <div className="relative">
             <div className='relative'>
               <Image
                 width={240}
@@ -72,29 +85,21 @@ export default function UploadImage({ file, setFile }: Props) {
                 alt="User"
                 className='rounded-full object-cover min-w-60 min-h-60 max-w-60 max-h-60'
               />
-                <div className='absolute bottom-50 left-50 p-2'>
-                  <label onClick={handleCancel} className='w-8 h-8 rounded-full border-primary hover:brightness-90 border-2 text-white flex justify-center items-center bg-primary transition-all cursor-pointer'>
-                  <MdPhotoCamera />
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleChange}
-                    className="hidden"
-                    id="fileInput"
-                    ref={fileInputRef}
-                  />
-                </label>
+            </div>
+            <div>
+              <div onClick={toggleOptions} className='shadow-5 w-8 p-2 rounded-full cursor-pointer hover:shadow-6 transition-all absolute right-4 bg-gray top-2' id="menu-button" aria-expanded="true" aria-haspopup="true">
+                <SlOptionsVertical />
               </div>
+              {showOptions && (
+                <div className="absolute right-1 z-10 mt-2 w-36 top-8 rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex={-1}>
+                  <div className="py-1" role="none">
+                    <div className="cursor-pointer text-gray-700 block px-4 py-2 text-sm hover:shadow-2" role="menuitem" tabIndex={-1} id="menu-item-1">Editar imagem</div>
+                    <div onClick={handleRemoveImage} className="cursor-pointer text-gray-700 block px-4 py-2 text-sm hover:shadow-2" role="menuitem" tabIndex={-1} id="menu-item-0">Remover imagem</div>
+                  </div>
+                </div>
+              )}
             </div>
-            <div className='flex justify-center mt-5'>
-              <button
-                onClick={handleCancel}
-                className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
-                type="button"
-              >
-                Remover imagem
-              </button>
-            </div>
+
           </div>
         ) : (
           <div
@@ -118,6 +123,14 @@ export default function UploadImage({ file, setFile }: Props) {
         )
 
       )}
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handleChange}
+        className="hidden"
+        id="fileInput"
+        ref={fileInputRef}
+      />
 
       {error && (<span className='text-meta-1'>{error}</span>)}
     </>
