@@ -1,0 +1,13 @@
+.MuiDataGrid-row{
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+}
+
+.MuiDataGrid-row:nth-child(even) {
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+}
