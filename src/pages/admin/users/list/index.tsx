@@ -19,6 +19,7 @@ import FormUser from '../form';
 import { DataGridDefault } from 'components/Datagrid';
 import useAuth from 'hooks/useAuth';
 import { usersMock } from 'mock/users/list';
+import { UserInfo } from './components/UserInfo';
 
 const PageListUsers = () => {
   const [users, setUsers] = useState<IUser[]>([]);
@@ -34,15 +35,13 @@ const PageListUsers = () => {
   const columns: GridColDef[] = [
     { field: 'userId', headerName: 'ID', width: 90 },
     {
-      field: 'createdAt',
-      headerName: 'Created at',
-      minWidth: 100,
-      flex: 1
-    },
-    {
-      field: 'name',
-      headerName: 'Name',
-      width: 250
+      field: 'user',
+      headerName: 'Usuário',
+      minWidth: 400,
+      flex: 1,
+      renderCell: (params: GridRenderCellParams<any, any, any, GridTreeNodeWithRender>) => {
+        return <UserInfo params={params} />;
+      }
     },
     {
       field: 'email',
@@ -51,7 +50,7 @@ const PageListUsers = () => {
     },
     {
       field: 'roleName',
-      headerName: 'Role',
+      headerName: 'Perfil',
       minWidth: 100,
       flex: 1
     },
@@ -137,9 +136,9 @@ const PageListUsers = () => {
   };
 
   return (
-    <DefaultSession title="Users list" handleClickNew={handleNew}>
+    <DefaultSession title="Listagem de usuários" handleClickNew={handleNew}>
       <Grid container justifyContent="right" pb={2}>
-        <SearchBar handleCallBack={getRows} hasName hasStatus />
+        <SearchBar handleCallBack={getRows} hasNameOrEmail hasStatus />
       </Grid>
       <MainCard>{loading ? <LoadingCircular /> : users.length ? <DataGridDefault rows={users} columns={columns} /> : <NoData />}</MainCard>
 

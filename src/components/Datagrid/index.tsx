@@ -15,7 +15,7 @@ export const DataGridDefault = ({
   rows,
   columns,
   checkboxSelection = false,
-  density = 'compact',
+  density = 'standard',
   handleSelectRows,
   handleRowClick
 }: Props) => {

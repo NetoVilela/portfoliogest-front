@@ -19,9 +19,10 @@ type Props = {
   hasHidden?: boolean;
   hasArchived?: boolean;
   hasCategory?: boolean;
+  hasNameOrEmail?: boolean;
 };
 
-export const SearchBar = ({ handleCallBack, hasName, hasStatus }: Props) => {
+export const SearchBar = ({ handleCallBack, hasName, hasStatus, hasNameOrEmail }: Props) => {
   const { handleSubmit, register, setValue } = useForm({ resolver: zodResolver(SchemaSearchBar) });
 
   const handleSearch = (data: FieldValues) => {
@@ -43,6 +44,14 @@ export const SearchBar = ({ handleCallBack, hasName, hasStatus }: Props) => {
                 <Grid item xs={12} sm={4}>
                   <Stack spacing={1}>
                     <TextField fullWidth {...register('name')} placeholder="Nome" label="Nome" size="small" />
+                  </Stack>
+                </Grid>
+              )}
+
+              {hasNameOrEmail && (
+                <Grid item xs={12} sm={4}>
+                  <Stack spacing={1}>
+                    <TextField fullWidth {...register('name')} placeholder="Nome" label="Nome / Email" size="small" />
                   </Stack>
                 </Grid>
               )}

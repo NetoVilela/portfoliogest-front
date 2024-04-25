@@ -8,4 +8,5 @@ export type IUser = {
   email?: string;
   roleId?: number;
   roleName?: string;
+  avatar?: string;
 };
