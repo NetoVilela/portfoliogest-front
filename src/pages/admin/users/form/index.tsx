@@ -12,8 +12,6 @@ import { LoadingCircular } from 'components/Loading/LoadingCircular';
 import SchemaUserAdd from './schema';
 import { getRoles } from 'utils/asyncCalls/getRoles';
 import { IRoleAPI } from 'types/role/RoleAPI';
-import { ISimpleCustomerAPI } from 'types/customer/SimpleCustomerAPI';
-import { getCustomers } from 'utils/asyncCalls/getCustomers';
 import { TextFieldPassword } from 'components/react-hook-form/InputPassword';
 import useAuth from 'hooks/useAuth';
 
@@ -38,7 +36,6 @@ const FormUser = ({ handleCallBack, id }: Props) => {
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [roles, setRoles] = useState<IRoleAPI[]>([]);
-  const [customers, setCustomers] = useState<ISimpleCustomerAPI[]>([]);
   const { enqueueSnackbar } = useSnackbar();
   const { user } = useAuth();
   const customerId = user?.customerId || '';
@@ -101,9 +98,6 @@ const FormUser = ({ handleCallBack, id }: Props) => {
     const getData = async () => {
       const a_roles = await getRoles(customerId);
       setRoles(a_roles);
-
-      const a_customers = await getCustomers();
-      setCustomers(a_customers);
     };
     getData();
 
@@ -138,16 +132,16 @@ const FormUser = ({ handleCallBack, id }: Props) => {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Typography variant="h4" fontWeight="bold">
-              Register user
+              Registrar usuário
             </Typography>
           </Grid>
           <Grid item xs={12} sm={6}>
             <Stack spacing={1}>
-              <InputLabel htmlFor="name">Name</InputLabel>
+              <InputLabel htmlFor="name">Nome</InputLabel>
               <TextField
                 fullWidth
                 id="name"
-                placeholder="Customer's name"
+                placeholder="Informe o nome"
                 {...register('name')}
                 error={!!errors.name?.message}
                 helperText={errors.name?.message as string}
@@ -160,7 +154,7 @@ const FormUser = ({ handleCallBack, id }: Props) => {
               <InputLabel htmlFor="email">Email</InputLabel>
               <TextField
                 fullWidth
-                placeholder="User's email"
+                placeholder="Informe o email"
                 {...register('email')}
                 error={!!errors.email?.message}
                 helperText={errors.email?.message as string}
@@ -170,7 +164,7 @@ const FormUser = ({ handleCallBack, id }: Props) => {
 
           <Grid item xs={12} sm={6}>
             <Stack spacing={1}>
-              <InputLabel htmlFor="roleId">Role</InputLabel>
+              <InputLabel htmlFor="roleId">Perfil</InputLabel>
               <FormControl sx={{ m: 1, minWidth: 120 }}>
                 <Select
                   name="roleId"
@@ -185,7 +179,7 @@ const FormUser = ({ handleCallBack, id }: Props) => {
                   error={!!errors.roleId?.message}
                 >
                   <MenuItem value={0}>
-                    <em>Select role</em>
+                    <em>Escolha o perfil</em>
                   </MenuItem>
                   {roles.map((role: IRoleAPI) => {
                     return (
@@ -205,50 +199,25 @@ const FormUser = ({ handleCallBack, id }: Props) => {
             </Stack>
           </Grid>
 
-          {watch('roleId') !== 1 && !customerId ? (
-            <Grid item xs={12} sm={6}>
-              <Stack spacing={1}>
-                <InputLabel htmlFor="customerId">Customer</InputLabel>
-                <FormControl sx={{ m: 1, minWidth: 120 }}>
-                  <Select
-                    name="customerId"
-                    value={watch('customerId') || 0}
-                    onChange={(e) => {
-                      setValue('customerId', e.target.value);
-                      trigger('customerId');
-                    }}
-                    error={!!errors.customerId?.message}
-                  >
-                    <MenuItem value={0}>
-                      <em>Select customer</em>
-                    </MenuItem>
-                    {customers.map((customer: IRoleAPI) => {
-                      return (
-                        <MenuItem value={customer.id} key={customer.id}>
-                          {customer.name}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                  {!!errors.customerId?.message && (
-                    <FormHelperText error id="standard-weight-helper-text-email-login">
-                      {' '}
-                      {errors.customerId?.message as string}{' '}
-                    </FormHelperText>
-                  )}
-                </FormControl>
-              </Stack>
-            </Grid>
-          ) : (
-            <Grid item xs={12} sm={6}></Grid>
-          )}
+          <Grid item xs={12} sm={6}>
+            <Stack spacing={1}>
+              <InputLabel htmlFor="phone">Telefone</InputLabel>
+              <TextField
+                fullWidth
+                placeholder="Informe o telefone"
+                {...register('phone')}
+                error={!!errors.phone?.message}
+                helperText={errors.phone?.message as string}
+              />
+            </Stack>
+          </Grid>
 
           <Grid item xs={12} sm={6}>
             <TextFieldPassword
               register={register}
               name="password"
-              label="Password"
-              placeholder="Enter a password"
+              label="Senha"
+              placeholder="Informe uma senha"
               error={!!errors.password?.message}
               helperText={errors.password?.message as string}
               hasIcon={id ? false : true}
@@ -258,8 +227,8 @@ const FormUser = ({ handleCallBack, id }: Props) => {
             <TextFieldPassword
               register={register}
               name="passwordAgain"
-              label="Repeat password"
-              placeholder="Enter a password"
+              label="Repita a senha"
+              placeholder="Repita a senha"
               error={!!errors.passwordAgain?.message}
               helperText={errors.passwordAgain?.message as string}
               hasIcon={id ? false : true}
@@ -276,7 +245,7 @@ const FormUser = ({ handleCallBack, id }: Props) => {
                   size="large"
                   sx={{ fontWeight: 'bold', width: '100%' }}
                 >
-                  Submit
+                  Cadastrar
                 </LoadingButton>
               </AnimateButton>
             </Grid>

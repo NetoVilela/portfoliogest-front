@@ -1239,6 +1239,14 @@
   "resolved" "https://registry.npmjs.org/@babel/regjsgen/-/regjsgen-0.8.0.tgz"
   "version" "0.8.0"
 
+"@babel/runtime-corejs3@^7.24.4":
+  "integrity" "sha512-VOQOexSilscN24VEY810G/PqtpFvx/z6UqDIjIWbDe2368HhDLkYN5TYwaEz/+eRCUkhJ2WaNLLmQAlxzfWj4w=="
+  "resolved" "https://registry.npmjs.org/@babel/runtime-corejs3/-/runtime-corejs3-7.24.4.tgz"
+  "version" "7.24.4"
+  dependencies:
+    "core-js-pure" "^3.30.2"
+    "regenerator-runtime" "^0.14.0"
+
 "@babel/runtime@^7.0.0", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.1", "@babel/runtime@^7.12.5", "@babel/runtime@^7.16.3", "@babel/runtime@^7.17.8", "@babel/runtime@^7.18.3", "@babel/runtime@^7.19.4", "@babel/runtime@^7.20.13", "@babel/runtime@^7.20.7", "@babel/runtime@^7.21.0", "@babel/runtime@^7.23.2", "@babel/runtime@^7.23.9", "@babel/runtime@^7.3.1", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
   "integrity" "sha512-Chk32uHMg6TnQdvw2e9IlqPpFX/6NLuK0Ys2PqLb7/gL5uFn9mXvK715FGLlOLQrcO4qIkNHkvPGktzzXexsFw=="
   "resolved" "https://registry.npmjs.org/@babel/runtime/-/runtime-7.24.0.tgz"
@@ -5727,7 +5735,7 @@
   dependencies:
     "browserslist" "^4.21.5"
 
-"core-js-pure@^3.23.3":
+"core-js-pure@^3.23.3", "core-js-pure@^3.30.2":
   "integrity" "sha512-p/npFUJXXBkCCTIlEGBdghofn00jWG6ZOtdoIXSJmAu2QBvN0IqpZXWweOytcwE6cfx8ZvVUy1vw8zxhe4Y2vg=="
   "resolved" "https://registry.npmjs.org/core-js-pure/-/core-js-pure-3.30.2.tgz"
   "version" "3.30.2"
@@ -8106,6 +8114,13 @@
   "version" "1.0.2"
   dependencies:
     "queue" "6.0.2"
+
+"imask@^7.6.0":
+  "integrity" "sha512-6EHsq1q7v5+M4Vas2MGrs2oRpxPRWPwPDiL0HmG1ikBI/0hOwvkxRhVRFQnWIlZcTG7R8iw0az5V+z868qnQ9A=="
+  "resolved" "https://registry.npmjs.org/imask/-/imask-7.6.0.tgz"
+  "version" "7.6.0"
+  dependencies:
+    "@babel/runtime-corejs3" "^7.24.4"
 
 "immer@^9.0.21", "immer@^9.0.7":
   "integrity" "sha512-bc4NBHqOqSfRW7POMkHd51LvClaeMXpm8dx0e8oE2GORbq5aRK7Bxl4FyzVLdGtLmvLKL7BTDBG5ACQm4HWjTA=="
@@ -11797,6 +11812,14 @@
   "integrity" "sha512-WqLZJ4bLzlhmsvme6iFdgO8gfZP17rfjYEJ2m9RsZjZ+cc4k1hTzknEz63YS1MeT50kVzoa1Nz36f4BEx+Wigw=="
   "resolved" "https://registry.npmjs.org/react-icons/-/react-icons-5.0.1.tgz"
   "version" "5.0.1"
+
+"react-imask@^7.6.0":
+  "integrity" "sha512-SilPct67Xw4TN+dqn3SM4BVpy+FwNSeT0wblA/DXQ3El2KPBEWwrn4x3gQ39ZohFAphp7yG7w6gSKq5SeR/6Kg=="
+  "resolved" "https://registry.npmjs.org/react-imask/-/react-imask-7.6.0.tgz"
+  "version" "7.6.0"
+  dependencies:
+    "imask" "^7.6.0"
+    "prop-types" "^15.8.1"
 
 "react-intersection-observer@^9.4.3":
   "integrity" "sha512-WNRqMQvKpupr6MzecAQI0Pj0+JQong307knLP4g/nBex7kYfIaZsPpXaIhKHR+oV8z+goUbH9e10j6lGRnTzlQ=="

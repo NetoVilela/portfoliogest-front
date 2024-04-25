@@ -2,7 +2,18 @@ import api from 'services/api';
 import { IRoleAPI } from 'types/role/RoleAPI';
 
 export const getRoles = async (customerId?: string) => {
-  let a_roles: IRoleAPI[] = [];
+  let a_roles: IRoleAPI[] = [
+    {
+      id: 1,
+      name: 'Administrador'
+    },
+    {
+      id: 2,
+      name: 'Usuário'
+    }
+  ];
+
+  return a_roles; // TODO: Remover após integração com API
   try {
     const response = await api.get('/roles');
     if (response.status === 200) {
