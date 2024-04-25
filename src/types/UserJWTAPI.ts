@@ -5,6 +5,4 @@ export type UserJWTAPI = {
   roleId: number;
   roleName: string;
   avatar: string;
-  customerId: string;
-  customerName: string;
 };

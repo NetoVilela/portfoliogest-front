@@ -2,7 +2,7 @@ import { createContext, useEffect, useReducer, ReactElement } from 'react';
 
 // third-party
 import { Chance } from 'chance';
-import jwtDecode from 'jwt-decode';
+// import jwtDecode from 'jwt-decode';
 
 // reducer - state management
 import { LOGIN, LOGOUT } from 'store/reducers/actions';
@@ -10,11 +10,11 @@ import authReducer from 'store/reducers/auth';
 
 // project-imports
 import Loader from 'components/Loader';
-import { KeyedObject } from 'types/root';
+// import { KeyedObject } from 'types/root';
 import { AuthProps, JWTContextType } from 'types/auth';
 import { UserProfile } from 'types/user-profile';
 import api from 'services/api';
-import { UserJWTAPI } from 'types/UserJWTAPI';
+// import { UserJWTAPI } from 'types/UserJWTAPI';
 
 const chance = new Chance();
 
@@ -26,15 +26,16 @@ const initialState: AuthProps = {
 };
 
 const verifyToken: (st: string) => boolean = (serviceToken) => {
-  if (!serviceToken) {
-    return false;
-  }
-  const decoded: KeyedObject = jwtDecode(serviceToken);
+  return true; // TODO Remover ao integrar com API
+  // if (!serviceToken) {
+  //   return false;
+  // }
+  // const decoded: KeyedObject = jwtDecode(serviceToken);
 
-  /**
-   * Property 'exp' does not exist on type '<T = unknown>(token: string, options?: JwtDecodeOptions | undefined) => T'.
-   */
-  return decoded.exp > Date.now() / 1000;
+  // /**
+  //  * Property 'exp' does not exist on type '<T = unknown>(token: string, options?: JwtDecodeOptions | undefined) => T'.
+  //  */
+  // return decoded.exp > Date.now() / 1000;
 };
 
 const setSession = (serviceToken?: string | null) => {
@@ -57,22 +58,33 @@ export const JWTProvider = ({ children }: { children: ReactElement }) => {
     const init = async () => {
       try {
         const serviceToken = localStorage.getItem('serviceToken');
+        console.log(serviceToken);
         if (serviceToken && verifyToken(serviceToken)) {
           setSession(serviceToken);
-          const dataJWT: UserJWTAPI = jwtDecode(serviceToken);
+          // const dataJWT: UserJWTAPI = jwtDecode(serviceToken);
+          // const user: UserProfile = {
+          //   id: dataJWT.userId,
+          //   name: dataJWT.userName,
+          //   email: dataJWT.userEmail,
+          //   profileId: dataJWT.roleId,
+          //   profileName: dataJWT.roleName,
+          //   avatar: dataJWT.avatar ?? dataJWT.userName,
+          //   customerId: dataJWT.customerId,
+          //   customerName: dataJWT.customerName
+          // };
+
+          // TODO: Remover ao integrar com API
           const user: UserProfile = {
-            id: dataJWT.userId,
-            name: dataJWT.userName,
-            email: dataJWT.userEmail,
-            profileId: dataJWT.roleId,
-            profileName: dataJWT.roleName,
-            avatar: dataJWT.avatar ?? dataJWT.userName,
-            customerId: dataJWT.customerId,
-            customerName: dataJWT.customerName
+            id: '123',
+            name: 'Admin',
+            email: 'admin@email.com',
+            profileId: 123,
+            profileName: 'Administrador',
+            avatar: ''
           };
 
           // user.avatar = `${process.env.REACT_APP_API_URL}/${user.avatar}`;
-
+          console.log('Teste');
           dispatch({
             type: LOGIN,
             payload: {
@@ -81,11 +93,13 @@ export const JWTProvider = ({ children }: { children: ReactElement }) => {
             }
           });
         } else {
+          console.log('Teste 2');
           dispatch({
             type: LOGOUT
           });
         }
       } catch (err) {
+        console.log('Teste 3');
         console.error(err);
         dispatch({
           type: LOGOUT
