@@ -127,6 +127,7 @@ const PageListUsers = () => {
   };
 
   const handleEdit = (id: string) => {
+    console.log(id);
     setUserId(id);
     handleOpen();
   };

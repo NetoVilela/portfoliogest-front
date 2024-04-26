@@ -20,7 +20,7 @@ const AuthBackground = () => {
         left: 0,
         top: 0,
         right: 0,
-        overflow: 'hidden',
+        overflow: 'hidden'
       }}
     >
       <Box

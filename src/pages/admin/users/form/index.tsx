@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FieldValues, useForm } from 'react-hook-form';
+import { Controller, FieldValues, useForm } from 'react-hook-form';
 import { FormHelperText, Grid, InputLabel, MenuItem, Stack, TextField, Typography } from '@mui/material';
 import { FormControl } from '@mui/material';
 import { Select } from '@mui/material';
@@ -13,7 +13,9 @@ import SchemaUserAdd from './schema';
 import { getRoles } from 'utils/asyncCalls/getRoles';
 import { IRoleAPI } from 'types/role/RoleAPI';
 import { TextFieldPassword } from 'components/react-hook-form/InputPassword';
+import InputMask from 'react-input-mask';
 import useAuth from 'hooks/useAuth';
+import { validatePhoneNumber } from 'helpers/validatePhoneNumber';
 
 const PASSWORD_HASH = 'M1R434PM35UPH4ASH';
 
@@ -30,7 +32,8 @@ const FormUser = ({ handleCallBack, id }: Props) => {
     setValue,
     formState: { errors },
     reset,
-    trigger
+    trigger,
+    control
   } = useForm({ resolver: zodResolver(SchemaUserAdd) });
 
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
@@ -46,6 +49,7 @@ const FormUser = ({ handleCallBack, id }: Props) => {
       name: data.name,
       email: data.email,
       roleId: data.roleId,
+      phone: validatePhoneNumber(data.phone),
       ...(data.password !== PASSWORD_HASH && { password: data.password }),
       ...(data.customerId && { customerId: data.customerId })
     };
@@ -132,7 +136,7 @@ const FormUser = ({ handleCallBack, id }: Props) => {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Typography variant="h4" fontWeight="bold">
-              Registrar usuário
+              {id ? 'Editar Usuário' : 'Registrar usuário'}
             </Typography>
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -199,18 +203,35 @@ const FormUser = ({ handleCallBack, id }: Props) => {
             </Stack>
           </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <Stack spacing={1}>
-              <InputLabel htmlFor="phone">Telefone</InputLabel>
-              <TextField
-                fullWidth
-                placeholder="Informe o telefone"
-                {...register('phone')}
-                error={!!errors.phone?.message}
-                helperText={errors.phone?.message as string}
-              />
-            </Stack>
-          </Grid>
+          <Controller
+            name='cnpj'
+            control={control}
+            render={(props) => (
+              <Grid item xs={12} sm={6}>
+                <Stack spacing={1}>
+                  <InputLabel htmlFor="phone">Telefone</InputLabel>
+                  <InputMask
+                    mask="(99) 9 9999-9999"
+                    value={watch("phone") || ""}
+                    onChange={(event): void => {
+                      setValue("phone",event.target.value);
+                    }}
+                    onBlur={(event): void => {
+                      console.log("teste");
+                      setValue("phone",validatePhoneNumber(event.target.value));
+                    }}
+                  >
+                    <TextField
+                      fullWidth
+                      placeholder="Informe o telefone"
+                      error={!!errors.phone?.message}
+                      helperText={errors.phone?.message as string}
+                    />
+                  </InputMask>
+                </Stack>
+              </Grid>
+            )}
+          />
 
           <Grid item xs={12} sm={6}>
             <TextFieldPassword
@@ -245,7 +266,7 @@ const FormUser = ({ handleCallBack, id }: Props) => {
                   size="large"
                   sx={{ fontWeight: 'bold', width: '100%' }}
                 >
-                  Cadastrar
+                  {id ? 'Salvar' : 'Cadastrar'}
                 </LoadingButton>
               </AnimateButton>
             </Grid>

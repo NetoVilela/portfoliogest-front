@@ -9,7 +9,6 @@ type Props = {
 export const UserInfo = ({ params }: Props) => {
   const { row } = params;
   const theme = useTheme();
-  console.log(row);
   return (
     <>
       <Grid container alignItems="center">
