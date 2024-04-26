@@ -11,6 +11,7 @@ const AuthLogin = Loadable(lazy(() => import('pages/auth/auth1/login')));
 const PageUserList = Loadable(lazy(() => import('pages/admin/users/list')));
 const PageListPortfolios = Loadable(lazy(() => import('pages/management/portfolios/list')));
 const PageFormPortfolios = Loadable(lazy(() => import('pages/management/portfolios/form')));
+const PageListContacts = Loadable(lazy(() => import('pages/management/contacts/list')));
 
 //  ProfileID = 1
 const AdministratorRoutes = {
@@ -73,6 +74,10 @@ const AdministratorRoutes = {
         {
           path: 'portfolios/list',
           element: <PageListPortfolios />
+        },
+        {
+          path: 'contacts/list',
+          element: <PageListContacts />
         }
       ]
     }

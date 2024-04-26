@@ -9,7 +9,6 @@ import MyProfile from 'pages/MyProfile';
 const Dashboard = Loadable(lazy(() => import('pages/dashboard')));
 const AuthLogin = Loadable(lazy(() => import('pages/auth/auth1/login')));
 const PageUserList = Loadable(lazy(() => import('pages/admin/users/list')));
-const PageRecommendations = Loadable(lazy(() => import('pages/management/recommendations/list')));
 
 const MainRoutes = {
   path: '/',
@@ -62,13 +61,7 @@ const MainRoutes = {
         <AuthGuard>
           <MainLayout />
         </AuthGuard>
-      ),
-      children: [
-        {
-          path: 'recommendations/list',
-          element: <PageRecommendations />
-        }
-      ]
+      )
     }
   ]
 };

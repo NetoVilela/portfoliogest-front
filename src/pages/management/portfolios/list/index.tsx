@@ -57,7 +57,7 @@ const PageListPortfolios = () => {
     },
     {
       field: 'actions',
-      headerName: 'Actions',
+      headerName: 'Ações',
       width: 100,
       renderCell: (params: GridRenderCellParams<any, any, any, GridTreeNodeWithRender>) => {
         return (

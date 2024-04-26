@@ -9,7 +9,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import SchemaSearchBar from './schema';
 import Form from 'components/react-hook-form/Form';
 import MainCard from 'components/MainCard';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { IContactType } from 'types/contact/Type';
+import { contactsTypeMock } from 'mock/contactsType/list';
 
 type Props = {
   handleCallBack: (data: FieldValues) => void;
@@ -20,17 +22,25 @@ type Props = {
   hasArchived?: boolean;
   hasCategory?: boolean;
   hasNameOrEmail?: boolean;
+  hasContactType?: boolean;
+  hasValue?: boolean;
 };
 
-export const SearchBar = ({ handleCallBack, hasName, hasStatus, hasNameOrEmail }: Props) => {
+export const SearchBar = ({ handleCallBack, hasName, hasContactType, hasStatus, hasValue, hasNameOrEmail }: Props) => {
   const { handleSubmit, register, setValue } = useForm({ resolver: zodResolver(SchemaSearchBar) });
+
+  const [contactTypes, setContactType] = useState<IContactType[]>([]);
 
   const handleSearch = (data: FieldValues) => {
     handleCallBack(data);
   };
 
   useEffect(() => {
-    const getData = async () => {};
+    const getData = async () => {
+      if (hasContactType) {
+        setContactType(contactsTypeMock);
+      }
+    };
     getData();
   }, []);
 
@@ -52,6 +62,35 @@ export const SearchBar = ({ handleCallBack, hasName, hasStatus, hasNameOrEmail }
                 <Grid item xs={12} sm={4}>
                   <Stack spacing={1}>
                     <TextField fullWidth {...register('name')} placeholder="Nome" label="Nome / Email" size="small" />
+                  </Stack>
+                </Grid>
+              )}
+
+              {hasValue && (
+                <Grid item xs={12} sm={3}>
+                  <Stack spacing={1}>
+                    <TextField fullWidth {...register('value')} placeholder="Ex: meuLinkedin123" label="Valor" size="small" />
+                  </Stack>
+                </Grid>
+              )}
+
+              {hasStatus && (
+                <Grid item xs={12} sm={3} md={2}>
+                  <Stack spacing={1}>
+                    <FormControl sx={{ minWidth: 120 }}>
+                      <Select name="status" defaultValue={0} size="small" onChange={(e) => setValue('status', e.target.value)}>
+                        <MenuItem value={0}>
+                          <em>Tipo de contato</em>
+                        </MenuItem>
+                        {contactTypes.map((contact, index) => {
+                          return (
+                            <MenuItem key={index} value={contact.id}>
+                              {contact.name}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
                   </Stack>
                 </Grid>
               )}

@@ -57,10 +57,7 @@ export const DataGridDefault = ({
           '& .MuiDataGrid-columnHeaderCheckbox .MuiDataGrid-columnHeaderTitleContainer': {
             display: 'none'
           },
-          cursor: 'pointer',
-          '& .selected-row': {
-            backgroundColor: '#f0f0f0'
-          }
+          cursor: 'pointer'
         }}
         {...(handleSelectRows && { onRowSelectionModelChange: handleSelectRows })}
       />

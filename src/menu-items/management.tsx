@@ -2,7 +2,7 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import { UserSquare, SaveAdd, Fatrows, Profile, User, TicketStar, Folder, Additem } from 'iconsax-react';
+import { UserSquare, SaveAdd, Fatrows, Profile, User, TicketStar, Folder, Additem, Call } from 'iconsax-react';
 
 // type
 import { NavItemType } from 'types/menu';
@@ -16,7 +16,8 @@ const icons = {
   user: User,
   ticketStar: TicketStar,
   folder: Folder,
-  addItem: Additem
+  addItem: Additem,
+  call: Call
 };
 
 const management: NavItemType = {
@@ -45,6 +46,13 @@ const management: NavItemType = {
           type: 'item'
         },
       ]
+    },
+    {
+      id: 'contacts',
+      title: <FormattedMessage id="contacts" />,
+      type: 'item',
+      icon: icons.call,
+      url: '/management/contacts/list'
     }
   ]
 };

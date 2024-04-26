@@ -20,43 +20,13 @@ import ProductOverview from 'sections/widget/chart/ProductOverview';
 
 import PaymentHistory from 'sections/widget/data/PaymentHistory';
 import CardRadial from 'sections/widget/chart/CardRadial';
-import { useEffect, useState } from 'react';
-import api from 'services/api';
-import { IRecommendationsDashboard } from 'types/dashboard/RecommendationsDashboard';
-// import { CardNumberTotal } from 'components/Dashboard/CardNumberTotal';
-
-// ==============================|| DASHBOARD - ANALYTICS ||============================== //
 
 const DashboardAnalytics = () => {
   const theme = useTheme();
-  const [dataRecommendations, setDataRecommendations] = useState<IRecommendationsDashboard>();
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await api.get('/recommendations/dashboard');
-        if (response.status === 200) {
-          setDataRecommendations(response.data);
-          console.log(response.data);
-        }
-      } catch (error: any) {
-        console.log(error);
-      }
-    };
-    getData();
-  }, []);
 
   return (
     <Grid container rowSpacing={4.5} columnSpacing={3}>
-      <Grid item xs={12} sm={6} md={4} lg={3}>
-        <CardRadial
-          title="Recommendations"
-          color={theme.palette.success.main}
-          valueTotal={dataRecommendations?.total || 0}
-          valueArchived={dataRecommendations?.totalArchived || 0}
-          valueOpen={dataRecommendations?.totalOpen || 0}
-        />
-      </Grid>
       <Grid item xs={12} sm={6} md={4} lg={3}>
         <CardRadial title="IOC Alerts" color={theme.palette.warning.main} valueTotal={0} valueArchived={0} valueOpen={0} />
       </Grid>
