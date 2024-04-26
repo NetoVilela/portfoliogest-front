@@ -3,16 +3,29 @@ import { DRAWER_WIDTH } from 'config';
 import AddIcon from '@mui/icons-material/Add';
 import { Button } from '@mui/material';
 import useAuth from 'hooks/useAuth';
+import { To, useNavigate } from 'react-router';
 
 type Props = {
   title: string;
   children: React.ReactNode;
   handleClickNew?: () => void;
+  redirectUrl?: To;
 };
 
-export const DefaultSession = ({ title, children, handleClickNew }: Props) => {
+export const DefaultSession = ({ title, children, handleClickNew, redirectUrl }: Props) => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const profileId = user?.profileId || 0;
+
+  const handleRedirectUrl = () => {
+    if (redirectUrl) {
+      navigate(redirectUrl, {
+        state: {
+          from: ''
+        }
+      });
+    }
+  };
 
   return (
     <Box sx={{ display: 'flex', width: '100%' }}>
@@ -29,10 +42,10 @@ export const DefaultSession = ({ title, children, handleClickNew }: Props) => {
           <Grid container mb={2} pb={1} justifyContent={'space-between'} borderBottom="1px solid rgba(29, 38, 48, 0.2)">
             <Typography variant="h3">{title}</Typography>
 
-            {handleClickNew &&
+            {(handleClickNew || redirectUrl) &&
               profileId !== 4 && ( // 4->Read-Only Administrator
-                <Button variant="contained" onClick={handleClickNew}>
-                  <AddIcon /> New
+                <Button variant="contained" onClick={ redirectUrl ? handleRedirectUrl : handleClickNew}>
+                  <AddIcon /> Adicionar
                 </Button>
               )}
           </Grid>

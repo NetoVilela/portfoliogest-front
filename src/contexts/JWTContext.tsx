@@ -78,7 +78,7 @@ export const JWTProvider = ({ children }: { children: ReactElement }) => {
             id: '123',
             name: 'Admin',
             email: 'admin@email.com',
-            profileId: 123,
+            profileId: 1,
             profileName: 'Administrador',
             avatar: ''
           };

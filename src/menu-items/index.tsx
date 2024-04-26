@@ -9,7 +9,7 @@ export const getMenuItems = (profileId: number, customerId: string) => {
   const admin = getAdmin(profileId);
 
   switch (profileId) {
-    case 1: //System Administrator
+    case 1: // Administrator
       menuItems = {
         items: [dashboard, admin, management]
       };

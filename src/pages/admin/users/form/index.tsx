@@ -204,7 +204,7 @@ const FormUser = ({ handleCallBack, id }: Props) => {
           </Grid>
 
           <Controller
-            name='cnpj'
+            name="cnpj"
             control={control}
             render={(props) => (
               <Grid item xs={12} sm={6}>
@@ -212,13 +212,12 @@ const FormUser = ({ handleCallBack, id }: Props) => {
                   <InputLabel htmlFor="phone">Telefone</InputLabel>
                   <InputMask
                     mask="(99) 9 9999-9999"
-                    value={watch("phone") || ""}
+                    value={watch('phone') || ''}
                     onChange={(event): void => {
-                      setValue("phone",event.target.value);
+                      setValue('phone', event.target.value);
                     }}
                     onBlur={(event): void => {
-                      console.log("teste");
-                      setValue("phone",validatePhoneNumber(event.target.value));
+                      setValue('phone', validatePhoneNumber(event.target.value));
                     }}
                   >
                     <TextField

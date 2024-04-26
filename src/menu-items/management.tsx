@@ -2,7 +2,7 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import { UserSquare, SaveAdd, Fatrows, Profile, User, TicketStar, Folder } from 'iconsax-react';
+import { UserSquare, SaveAdd, Fatrows, Profile, User, TicketStar, Folder, Additem } from 'iconsax-react';
 
 // type
 import { NavItemType } from 'types/menu';
@@ -15,7 +15,8 @@ const icons = {
   profile: Profile,
   user: User,
   ticketStar: TicketStar,
-  folder: Folder
+  folder: Folder,
+  addItem: Additem
 };
 
 const management: NavItemType = {
@@ -26,9 +27,24 @@ const management: NavItemType = {
     {
       id: 'portfolios',
       title: <FormattedMessage id="portfolios" />,
-      type: 'item',
-      url: '/gestao/portfolios/listar',
-      icon: icons.folder
+      type: 'collapse',
+      icon: icons.folder,
+      children: [
+        {
+          id: 'portfolios-add',
+          title: <FormattedMessage id="portfolios-add" />,
+          url: '/management/portfolios/form',
+          icon: icons.addItem,
+          type: 'item'
+        },
+        {
+          id: 'portfolios-list',
+          title: <FormattedMessage id="portfolios-list" />,
+          url: '/management/portfolios/list',
+          icon: icons.list,
+          type: 'item'
+        },
+      ]
     }
   ]
 };

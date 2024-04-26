@@ -10,6 +10,7 @@ const Dashboard = Loadable(lazy(() => import('pages/dashboard')));
 const AuthLogin = Loadable(lazy(() => import('pages/auth/auth1/login')));
 const PageUserList = Loadable(lazy(() => import('pages/admin/users/list')));
 const PageListPortfolios = Loadable(lazy(() => import('pages/management/portfolios/list')));
+const PageFormPortfolios = Loadable(lazy(() => import('pages/management/portfolios/form')));
 
 //  ProfileID = 1
 const AdministratorRoutes = {
@@ -58,7 +59,7 @@ const AdministratorRoutes = {
       ]
     },
     {
-      path: '/gestao',
+      path: '/management',
       element: (
         <AuthGuard>
           <MainLayout />
@@ -66,7 +67,11 @@ const AdministratorRoutes = {
       ),
       children: [
         {
-          path: 'portfolios/listar',
+          path: 'portfolios/form/:id?',
+          element: <PageFormPortfolios />
+        },
+        {
+          path: 'portfolios/list',
           element: <PageListPortfolios />
         }
       ]

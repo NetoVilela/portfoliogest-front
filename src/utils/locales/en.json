@@ -4,7 +4,9 @@
   "list-users": "Listar usuários",
   "management": "Gestão",
   "portfolios": "Portfólios",
-  "logout": "Logout",
+  "portfolios-list": "Meus portólios",
+  "portfolios-add": "Adicionar",
+  "logout": "Sair",
 
   "accordion": "Accordion",
   "account-profile": "Account Profile",
