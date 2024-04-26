@@ -36,7 +36,7 @@ const Header = () => {
   const headerContent = useMemo(() => <HeaderContent />, []);
 
   const iconBackColorOpen = theme.palette.mode === ThemeMode.DARK ? 'secondary.200' : 'primary.200';
-  const iconBackColor = theme.palette.mode === ThemeMode.DARK ? 'background.default' : 'primary.400';
+  const iconBackColor = theme.palette.mode === ThemeMode.DARK ? 'secondary.200' : 'primary.400';
 
   // common header
   const mainHeader: ReactNode = (
