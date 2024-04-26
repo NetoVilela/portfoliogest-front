@@ -22,7 +22,7 @@ const config: DefaultConfigProps = {
   menuCaption: true,
   miniDrawer: false,
   container: false,
-  mode: ThemeMode.LIGHT,
+  mode: ThemeMode.DARK, // TEMA PADRÃO
   presetColor: 'default',
   themeDirection: ThemeDirection.LTR,
   themeContrast: false

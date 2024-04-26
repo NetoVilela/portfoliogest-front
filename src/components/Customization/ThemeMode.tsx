@@ -20,8 +20,9 @@ const ThemeModeLayout = () => {
   const theme = useTheme();
 
   const { mode, onChangeMode } = useConfig();
-
+  console.log(mode);
   const handleModeChange = (event: ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.value);
     onChangeMode(event.target.value as ThemeMode);
   };
 

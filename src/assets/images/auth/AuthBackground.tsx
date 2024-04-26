@@ -21,17 +21,6 @@ const AuthBackground = () => {
         top: 0,
         right: 0,
         overflow: 'hidden',
-        '&:before': {
-          content: `" "`,
-          width: 300,
-          height: 300,
-          borderRadius: '50%',
-          bgcolor: 'warning.lighter',
-          position: 'absolute',
-          top: 0,
-          right: 0,
-          opacity: theme.palette.mode === ThemeMode.DARK ? 0.6 : 1
-        }
       }}
     >
       <Box
@@ -39,7 +28,7 @@ const AuthBackground = () => {
           width: 250,
           height: 250,
           borderRadius: '50%',
-          bgcolor: theme.palette.success.lighter,
+          // bgcolor: theme.palette.success.lighter,
           ml: 20,
           position: 'absolute',
           bottom: 180,
@@ -51,7 +40,7 @@ const AuthBackground = () => {
           width: 200,
           height: 200,
           borderRadius: '50%',
-          bgcolor: theme.palette.error.light,
+          // bgcolor: theme.palette.error.light,
           position: 'absolute',
           bottom: 0,
           left: -50,

@@ -40,7 +40,7 @@ const Header = () => {
 
   // common header
   const mainHeader: ReactNode = (
-    <Toolbar sx={{ px: { xs: 2, sm: 4.5, lg: 8 }, backgroundColor: 'primary.400', width: '100%' }}>
+    <Toolbar sx={{ px: { xs: 2, sm: 4.5, lg: 8 }, backgroundColor: 'secondary.lighter', width: '100%' }}>
       {!isHorizontal ? (
         <IconButton
           aria-label="open drawer"
