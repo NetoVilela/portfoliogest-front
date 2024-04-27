@@ -44,7 +44,7 @@ export const DefaultSession = ({ title, children, handleClickNew, redirectUrl }:
 
             {(handleClickNew || redirectUrl) &&
               profileId !== 4 && ( // 4->Read-Only Administrator
-                <Button variant="contained" onClick={ redirectUrl ? handleRedirectUrl : handleClickNew}>
+                <Button variant="contained" onClick={redirectUrl ? handleRedirectUrl : handleClickNew}>
                   <AddIcon /> Adicionar
                 </Button>
               )}

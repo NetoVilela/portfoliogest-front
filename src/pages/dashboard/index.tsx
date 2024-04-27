@@ -24,7 +24,6 @@ import CardRadial from 'sections/widget/chart/CardRadial';
 const DashboardAnalytics = () => {
   const theme = useTheme();
 
-
   return (
     <Grid container rowSpacing={4.5} columnSpacing={3}>
       <Grid item xs={12} sm={6} md={4} lg={3}>
