@@ -4,6 +4,7 @@ export type IContact = {
   updatedAt: string;
   status: boolean;
   value: string;
-  link: string;
+  description: string;
+  isLink: boolean;
   typeName: string;
 };

@@ -15,13 +15,11 @@ import { NoData } from 'components/NoData';
 import { FieldValues } from 'react-hook-form';
 import { RemoveDataGrid } from 'components/Datagrid/Remove';
 import { DataGridDefault } from 'components/Datagrid';
-import { useNavigate } from 'react-router';
 import { IContact } from 'types/contact/Contact';
 import { contactsMock } from 'mock/contacts/list';
 import FormContact from '../form';
 
 const PageListContacts = () => {
-    const navigate = useNavigate();
     const [contacts, setContacts] = useState<IContact[]>([]);
     const [contactId, setContactId] = useState<number>();
     const [loading, setLoading] = useState<boolean>(true);
@@ -39,6 +37,11 @@ const PageListContacts = () => {
         {
             field: 'value',
             headerName: 'Valor',
+            flex: 1
+        },
+        {
+            field: 'description',
+            headerName: 'Descrição',
             flex: 1
         },
         {
@@ -99,7 +102,8 @@ const PageListContacts = () => {
                         updatedAt: formateDate(contact.updatedAt),
                         value: contact.value,
                         status: contact.status,
-                        link: contact.link,
+                        description: contact.description,
+                        isLink: contact.isLink,
                         typeName: contact.typeName
                     });
                     return 0;
@@ -115,8 +119,7 @@ const PageListContacts = () => {
     };
 
     const handleEdit = (id: string) => {
-        // setPortfolioId(id);
-        navigate(`/management/portfolios/form/${id}`);
+        setContactId(+id);
         handleOpen();
     };
 
@@ -139,7 +142,7 @@ const PageListContacts = () => {
             </MainCard>
 
             <ModalDefault open={open} handleClose={handleClose}>
-                <FormContact handleCallBack={handleCallbackNewCustomer} id={String(contactId)} />
+                <FormContact handleCallBack={handleCallbackNewCustomer} id={contactId} />
             </ModalDefault>
         </DefaultSession>
     );

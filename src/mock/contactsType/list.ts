@@ -2,39 +2,39 @@ import { IContactType } from 'types/contact/Type';
 
 export const contactsTypeMock: IContactType[] = [
   {
-    id: 1,
+    id: 'phone',
     name: 'Telefone'
   },
   {
-    id: 2,
+    id: 'whatsapp',
     name: 'Whatsapp'
   },
   {
-    id: 3,
+    id: 'instagram',
     name: 'Instagram'
   },
   {
-    id: 4,
+    id: 'facebook',
     name: 'Facebook'
   },
   {
-    id: 5,
+    id: 'linkedin',
     name: 'Linkedin'
   },
   {
-    id: 6,
+    id: 'telegram',
     name: 'Telegram'
   },
   {
-    id: 7,
+    id: 'email',
     name: 'Email'
   },
   {
-    id: 8,
+    id: 'portfolio',
     name: 'Portfólio'
   },
   {
-    id: 9,
+    id: 'other',
     name: 'Outro'
   }
 ];

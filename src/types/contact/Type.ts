@@ -1,4 +1,4 @@
 export type IContactType = {
-  id: number;
+  id: string;
   name: string;
 };

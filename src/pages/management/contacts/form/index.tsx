@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FieldValues, useForm } from 'react-hook-form';
-import { Button, FormHelperText, Grid, InputLabel, MenuItem, Stack, TextField, Typography } from '@mui/material';
+import { Controller, FieldValues, useForm } from 'react-hook-form';
+import { Button, Checkbox, FormHelperText, Grid, InputLabel, MenuItem, Stack, TextField, Typography } from '@mui/material';
 import { FormControl } from '@mui/material';
 import { Select } from '@mui/material';
 import AnimateButton from 'components/@extended/AnimateButton';
@@ -15,12 +15,12 @@ import { IContactType } from 'types/contact/Type';
 import { contactsTypeMock } from 'mock/contactsType/list';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { VisuallyHiddenInput } from 'components/VisuallyHiddenInput';
-
-
+import InputMask from 'react-input-mask';
+import { validatePhoneNumber } from 'helpers/validatePhoneNumber';
 
 type Props = {
     handleCallBack: () => void;
-    id?: string;
+    id?: number;
 };
 
 const FormContact = ({ handleCallBack, id }: Props) => {
@@ -30,6 +30,9 @@ const FormContact = ({ handleCallBack, id }: Props) => {
         setValue,
         formState: { errors },
         reset,
+        trigger,
+        control,
+        watch
     } = useForm({ resolver: zodResolver(SchemaContactAdd) });
 
     const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
@@ -42,8 +45,6 @@ const FormContact = ({ handleCallBack, id }: Props) => {
         setLoadingSubmit(true);
         const obj = {
         };
-        console.log(obj);
-        console.log(avatar);
 
         let success = false;
         let message = '';
@@ -126,25 +127,60 @@ const FormContact = ({ handleCallBack, id }: Props) => {
                             {id ? 'Editar contato' : 'Adicionar contato'}
                         </Typography>
                     </Grid>
+
                     <Grid item xs={12} sm={6}>
                         <Stack spacing={1}>
-                            <InputLabel htmlFor="value">Valor</InputLabel>
-                            <TextField
-                                fullWidth
-                                placeholder="ex: meuLinkedin123"
-                                {...register('value')}
-                                error={!!errors.value?.message}
-                                helperText={errors.value?.message as string}
+                            <Controller
+                                name="value"
+                                control={control}
+                                render={(props) => {
+
+                                    let maskPhone = watch("contactType") === 'phone' || watch("contactType") === 'whatsapp';
+
+                                    return (
+                                        <>
+                                            <InputLabel htmlFor="value" required>Valor</InputLabel>
+                                            <InputMask
+                                                mask={maskPhone ? '(99) 9 9999-9999' : ''}
+                                                value={watch('value') || ''}
+                                                onChange={(event): void => {
+                                                    setValue('value', event.target.value);
+                                                    trigger('value');
+                                                }}
+                                                onBlur={(event): void => {
+                                                    setValue('value', maskPhone ? validatePhoneNumber(event.target.value) : event.target.value);
+                                                    trigger('value');
+                                                }}
+                                            >
+                                                <TextField
+                                                    fullWidth
+                                                    placeholder="Ex: https://www.linkeding.com.br/meuLinkedin"
+                                                    error={!!errors.value?.message}
+                                                    helperText={errors.value?.message as string}
+                                                />
+                                            </InputMask>
+                                        </>
+                                    );
+                                }}
                             />
                         </Stack>
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
                         <Stack spacing={1}>
-                            <InputLabel htmlFor="contactType">Tipo de contato</InputLabel>
+                            <InputLabel htmlFor="contactType" required>Tipo de contato</InputLabel>
                             <FormControl sx={{ m: 1, minWidth: 120 }}>
-                                <Select name="contactType" defaultValue={0} onChange={(e) => setValue('type', e.target.value)}>
-                                    <MenuItem value={0}>
+                                <Select
+                                    name="contactType"
+                                    defaultValue={'0'}
+                                    onChange={(e) => {
+                                        setValue('contactType', e.target.value);
+                                        setValue('value', '');
+                                        trigger('contactType');
+                                    }}
+                                    error={!!errors.contactType?.message}
+                                >
+                                    <MenuItem value={'0'}>
                                         <em>Tipo de contato</em>
                                     </MenuItem>
                                     {contactTypes.map((contactType, index) => {
@@ -163,14 +199,23 @@ const FormContact = ({ handleCallBack, id }: Props) => {
 
                     <Grid item xs={12} sm={6}>
                         <Stack spacing={1}>
-                            <InputLabel htmlFor="link">Link</InputLabel>
+                            <InputLabel htmlFor="link">Descrição</InputLabel>
                             <TextField
                                 fullWidth
-                                placeholder="ex: htttps://www.linkedin.com/meuLinkedin123"
+                                placeholder="Ex: Meu instagram pessoal"
                                 {...register('link')}
                                 error={!!errors.link?.message}
                                 helperText={errors.link?.message as string}
                             />
+                        </Stack>
+                    </Grid>
+
+                    <Grid item xs={12} sm={6} display="flex" alignItems="flex-end">
+                        <Stack spacing={1}>
+                            <Grid container display="flex" alignItems="center">
+                                <Checkbox size="large" id="hasLinkCheck" />
+                                <label htmlFor="hasLinkCheck"><b>É um link?</b></label>
+                            </Grid>
                         </Stack>
                     </Grid>
 

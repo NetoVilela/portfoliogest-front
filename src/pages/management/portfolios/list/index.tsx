@@ -4,7 +4,6 @@ import { EditDataGrid } from 'components/Datagrid/Edit';
 import { SwitchDataGrid } from 'components/Datagrid/Switch';
 import { LoadingCircular } from 'components/Loading/LoadingCircular';
 import MainCard from 'components/MainCard';
-import { ModalDefault } from 'components/ModalDefault';
 import { formateDate } from 'helpers/formateDate';
 import { useEffect, useState } from 'react';
 import { DefaultSession } from 'sections/Default';
@@ -22,11 +21,6 @@ const PageListPortfolios = () => {
   const navigate = useNavigate();
   const [portfolios, setPortfolios] = useState<IPortfolio[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [open, setOpen] = useState<boolean>(false);
-  // const [attPage, setAttPage] = useState<boolean>(false);
-  // const [portfolioId, setPortfolioId] = useState<string>();
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   const columns: GridColDef[] = [
     {
@@ -110,14 +104,8 @@ const PageListPortfolios = () => {
   };
 
   const handleEdit = (id: string) => {
-    // setPortfolioId(id);
     navigate(`/management/portfolios/form/${id}`);
-    handleOpen();
   };
-
-  // const handleCallbackNewCustomer = () => {
-  //   setAttPage(!attPage);
-  // };
 
   return (
     <DefaultSession title="Listagem de portfólios" redirectUrl={'/management/portfolios/form'}>
@@ -127,11 +115,6 @@ const PageListPortfolios = () => {
       <MainCard>
         {loading ? <LoadingCircular /> : portfolios.length ? <DataGridDefault rows={portfolios} columns={columns} /> : <NoData />}
       </MainCard>
-
-      <ModalDefault open={open} handleClose={handleClose}>
-        <>a</>
-        {/* <FormUser handleCallBack={handleCallbackNewCustomer} id={userId} /> */}
-      </ModalDefault>
     </DefaultSession>
   );
 };

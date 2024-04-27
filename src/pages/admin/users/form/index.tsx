@@ -204,7 +204,7 @@ const FormUser = ({ handleCallBack, id }: Props) => {
           </Grid>
 
           <Controller
-            name="cnpj"
+            name="phone"
             control={control}
             render={(props) => (
               <Grid item xs={12} sm={6}>
