@@ -137,7 +137,7 @@ const PageListKnowledges = () => {
   return (
     <DefaultSession title="Listagem de conhecimentos" handleClickNew={handleNew}>
       <Grid container justifyContent="right" pb={2}>
-        <SearchBar handleCallBack={getRows} hasValue hasContactType hasStatus />
+        <SearchBar handleCallBack={getRows} hasName placeholderName='Ex: ReactJS' labelName='Conhecimento / Descrição' hasStatus />
       </Grid>
       <MainCard>
         {loading ? <LoadingCircular /> : knowledges.length ? <DataGridDefault rows={knowledges} columns={columns} /> : <NoData />}

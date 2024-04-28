@@ -16,6 +16,8 @@ import { contactsTypeMock } from 'mock/contactsType/list';
 type Props = {
   handleCallBack: (data: FieldValues) => void;
   hasName?: boolean;
+  labelName?: string;
+  placeholderName?: string;
   hasStatus?: boolean;
   hasTextRecommendation?: boolean;
   hasHidden?: boolean;
@@ -26,7 +28,16 @@ type Props = {
   hasValue?: boolean;
 };
 
-export const SearchBar = ({ handleCallBack, hasName, hasContactType, hasStatus, hasValue, hasNameOrEmail }: Props) => {
+export const SearchBar = ({
+  handleCallBack,
+  hasName,
+  hasContactType,
+  hasStatus,
+  hasValue,
+  hasNameOrEmail,
+  labelName = 'Nome',
+  placeholderName = 'Nome'
+}: Props) => {
   const { handleSubmit, register, setValue } = useForm({ resolver: zodResolver(SchemaSearchBar) });
 
   const [contactTypes, setContactType] = useState<IContactType[]>([]);
@@ -54,7 +65,7 @@ export const SearchBar = ({ handleCallBack, hasName, hasContactType, hasStatus, 
               {hasName && (
                 <Grid item xs={12} sm={4}>
                   <Stack spacing={1}>
-                    <TextField fullWidth {...register('name')} placeholder="Nome" label="Nome" size="small" />
+                    <TextField fullWidth {...register('name')} placeholder={placeholderName} label={labelName} size="small" />
                   </Stack>
                 </Grid>
               )}
@@ -75,7 +86,7 @@ export const SearchBar = ({ handleCallBack, hasName, hasContactType, hasStatus, 
                 </Grid>
               )}
 
-              {hasStatus && (
+              {hasContactType && (
                 <Grid item xs={12} sm={3} md={2}>
                   <Stack spacing={1}>
                     <FormControl sx={{ minWidth: 120 }}>

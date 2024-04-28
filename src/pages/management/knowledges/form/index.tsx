@@ -1,9 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Controller, FieldValues, useForm } from 'react-hook-form';
-import { Button, Checkbox, FormHelperText, Grid, InputLabel, MenuItem, Stack, TextField, Typography } from '@mui/material';
-import { FormControl } from '@mui/material';
-import { Select } from '@mui/material';
+import { FieldValues, useForm } from 'react-hook-form';
+import { Button, Grid, InputLabel, Stack, TextField, Typography } from '@mui/material';
 import AnimateButton from 'components/@extended/AnimateButton';
 import api from 'services/api';
 import { useEffect, useState } from 'react';
@@ -11,33 +9,26 @@ import { LoadingButton } from '@mui/lab';
 import { useSnackbar } from 'notistack';
 import { LoadingCircular } from 'components/Loading/LoadingCircular';
 import SchemaContactAdd from './schema';
-import { IContactType } from 'types/contact/Type';
-import { contactsTypeMock } from 'mock/contactsType/list';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { VisuallyHiddenInput } from 'components/VisuallyHiddenInput';
-import InputMask from 'react-input-mask';
-import { validatePhoneNumber } from 'helpers/validatePhoneNumber';
+import { InputNumberLevel } from 'components/InputNumberLevel';
 
 type Props = {
     handleCallBack: () => void;
     id?: number;
 };
 
-const FormContact = ({ handleCallBack, id }: Props) => {
+const FormKnowledge = ({ handleCallBack, id }: Props) => {
     const {
         register,
         handleSubmit,
         setValue,
         formState: { errors },
-        reset,
-        trigger,
-        control,
-        watch
+        reset
     } = useForm({ resolver: zodResolver(SchemaContactAdd) });
 
     const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
-    const [contactTypes, setContactTypes] = useState<IContactType[]>([]);
     const { enqueueSnackbar } = useSnackbar();
     const [avatar, setAvatar] = useState<File | null>(null);
 
@@ -92,14 +83,13 @@ const FormContact = ({ handleCallBack, id }: Props) => {
     useEffect(() => {
         const getData = async () => {
             setLoading(true);
-            setContactTypes(contactsTypeMock);
         };
         getData();
 
         const getUser = async () => {
             setLoading(true);
             try {
-                const response = await api.get(`/contacts/${id}`);
+                const response = await api.get(`/knowledges/${id}`);
                 if (response.status === 200) {
                     reset({
                     });
@@ -124,107 +114,58 @@ const FormContact = ({ handleCallBack, id }: Props) => {
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
                         <Typography variant="h4" fontWeight="bold">
-                            {id ? 'Editar contato' : 'Adicionar contato'}
+                            {id ? 'Editar conhecimento' : 'Adicionar conhecimento'}
                         </Typography>
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
                         <Stack spacing={1}>
-                            <Controller
-                                name="value"
-                                control={control}
-                                render={(props) => {
-
-                                    let maskPhone = watch("contactType") === 'phone' || watch("contactType") === 'whatsapp';
-
-                                    return (
-                                        <>
-                                            <InputLabel htmlFor="value" required>Valor</InputLabel>
-                                            <InputMask
-                                                mask={maskPhone ? '(99) 9 9999-9999' : ''}
-                                                value={watch('value') || ''}
-                                                onChange={(event): void => {
-                                                    setValue('value', event.target.value);
-                                                    trigger('value');
-                                                }}
-                                                onBlur={(event): void => {
-                                                    setValue('value', maskPhone ? validatePhoneNumber(event.target.value) : event.target.value);
-                                                    trigger('value');
-                                                }}
-                                            >
-                                                <TextField
-                                                    fullWidth
-                                                    placeholder="Ex: https://www.linkeding.com.br/meuLinkedin"
-                                                    error={!!errors.value?.message}
-                                                    helperText={errors.value?.message as string}
-                                                />
-                                            </InputMask>
-                                        </>
-                                    );
-                                }}
-                            />
-                        </Stack>
-                    </Grid>
-
-                    <Grid item xs={12} sm={6}>
-                        <Stack spacing={1}>
-                            <InputLabel htmlFor="contactType" required>Tipo de contato</InputLabel>
-                            <FormControl sx={{ m: 1, minWidth: 120 }}>
-                                <Select
-                                    name="contactType"
-                                    defaultValue={'0'}
-                                    onChange={(e) => {
-                                        setValue('contactType', e.target.value);
-                                        setValue('value', '');
-                                        trigger('contactType');
-                                    }}
-                                    error={!!errors.contactType?.message}
-                                >
-                                    <MenuItem value={'0'}>
-                                        <em>Tipo de contato</em>
-                                    </MenuItem>
-                                    {contactTypes.map((contactType, index) => {
-                                        return <MenuItem key={index} value={contactType.id}>{contactType.name}</MenuItem>;
-                                    })}
-                                </Select>
-                                {!!errors.contactType?.message && (
-                                    <FormHelperText error id="standard-weight-helper-text-email-login">
-                                        {' '}
-                                        {errors.contactType?.message as string}{' '}
-                                    </FormHelperText>
-                                )}
-                            </FormControl>
-                        </Stack>
-                    </Grid>
-
-                    <Grid item xs={12} sm={6}>
-                        <Stack spacing={1}>
-                            <InputLabel htmlFor="link">Descrição</InputLabel>
+                            <InputLabel htmlFor="name" required>Nome</InputLabel>
                             <TextField
                                 fullWidth
-                                placeholder="Ex: Meu instagram pessoal"
-                                {...register('link')}
-                                error={!!errors.link?.message}
-                                helperText={errors.link?.message as string}
+                                placeholder="Ex: Typescript"
+                                {...register('name')}
+                                error={!!errors.name?.message}
+                                helperText={errors.name?.message as string}
                             />
                         </Stack>
                     </Grid>
 
-                    <Grid item xs={12} sm={6} display="flex" alignItems="flex-end">
+                    <Grid item xs={12} sm={6}>
                         <Stack spacing={1}>
-                            <Grid container display="flex" alignItems="center">
-                                <Checkbox size="large" id="hasLinkCheck" />
-                                <label htmlFor="hasLinkCheck"><b>É um link?</b></label>
-                            </Grid>
+                            <InputNumberLevel
+                                register={register}
+                                name="level"
+                                placeholder="Ex: Typescript"
+                                label="Nível de conhecimento"
+                                errorMessage={errors.level?.message as string}
+                                hasError={!!errors.level?.message}
+                                required={true}
+                            />
                         </Stack>
                     </Grid>
 
-                    <Grid item xs={12} sx={{ display: "flex", alignItems: "center" }}>
+                    <Grid item xs={12} sm={6}>
+                        <Stack spacing={1}>
+                            <InputLabel htmlFor="description">Descrição</InputLabel>
+                            <TextField
+                                fullWidth
+                                placeholder="Ex: Obtive conhecimento em Typescript através de ..."
+                                {...register('description')}
+                                error={!!errors.description?.message}
+                                helperText={errors.description?.message as string}
+                                multiline
+                                rows={5}
+                            />
+                        </Stack>
+                    </Grid>
+
+                    <Grid item xs={12} sm={6} sx={{ display: "flex", alignItems: "flex-end" }}>
                         <Stack spacing={1}>
                             <Button
                                 component="label"
                                 role={undefined}
-                                variant="contained"
+                                variant="outlined"
                                 tabIndex={-1}
                                 startIcon={<CloudUploadIcon />}
                             >
@@ -261,4 +202,4 @@ const FormContact = ({ handleCallBack, id }: Props) => {
     );
 };
 
-export default FormContact;
+export default FormKnowledge;
