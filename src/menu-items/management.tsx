@@ -2,7 +2,7 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import { UserSquare, SaveAdd, Fatrows, Profile, User, TicketStar, Folder, Additem, Call, Book } from 'iconsax-react';
+import { UserSquare, SaveAdd, Fatrows, Profile, User, TicketStar, Folder, Additem, Call, Book, Box } from 'iconsax-react';
 
 // type
 import { NavItemType } from 'types/menu';
@@ -18,7 +18,8 @@ const icons = {
   folder: Folder,
   addItem: Additem,
   call: Call,
-  book: Book
+  book: Book,
+  box: Box
 };
 
 const management: NavItemType = {
@@ -61,6 +62,13 @@ const management: NavItemType = {
       type: 'item',
       icon: icons.book,
       url: '/management/knowledges/list'
+    },
+    {
+      id: 'projects',
+      title: <FormattedMessage id="projects" />,
+      type: 'item',
+      icon: icons.box,
+      url: '/management/projects/list'
     }
   ]
 };

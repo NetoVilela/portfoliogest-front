@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FieldValues, useForm } from 'react-hook-form';
-import { Button, Grid, InputLabel, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Button, Grid, InputLabel, Stack, TextField, Typography } from '@mui/material';
 import AnimateButton from 'components/@extended/AnimateButton';
 import api from 'services/api';
 import { useEffect, useState } from 'react';
@@ -11,7 +11,7 @@ import { LoadingCircular } from 'components/Loading/LoadingCircular';
 import SchemaContactAdd from './schema';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { VisuallyHiddenInput } from 'components/VisuallyHiddenInput';
-import HelpIcon from '@mui/icons-material/Help';
+import { InputNumberLevel } from 'components/InputNumberLevel';
 
 type Props = {
     handleCallBack: () => void;
@@ -134,25 +134,15 @@ const FormKnowledge = ({ handleCallBack, id }: Props) => {
 
                     <Grid item xs={12} sm={6}>
                         <Stack spacing={1}>
-                            <Grid display="flex">
-                                <InputLabel htmlFor="level" required>Nível de conhecimento</InputLabel>
-                                <Tooltip title={'Forneça um valor de 1 a 10 informando o seu nível de conhecimento'}>
-                                    <HelpIcon sx={{ fontSize: 20, marginLeft: 2 }} />
-                                </Tooltip>
-                            </Grid>
-                            <TextField
-                                fullWidth
-                                type="number"
-                                placeholder="Forneça um valor de 1 a 10"
-                                value={watch("level") || ""}
-                                error={!!errors.level?.message}
-                                helperText={errors.level?.message as string}
-                                onChange={(event) => {
-                                    const value = event.target.value;
-                                    if ((parseInt(value) > 0 && parseInt(value) < 11) || value === "") {
-                                        setValue("level", value);
-                                    }
-                                }}
+                            <InputNumberLevel
+                                register={register}
+                                name="level"
+                                placeholder="Ex: Typescript"
+                                label="Nível de conhecimento"
+                                errorMessage={errors.level?.message as string}
+                                hasError={!!errors.level?.message}
+                                required={true}
+                                watch={watch}
                             />
                         </Stack>
                     </Grid>
@@ -162,7 +152,7 @@ const FormKnowledge = ({ handleCallBack, id }: Props) => {
                             <InputLabel htmlFor="description">Descrição</InputLabel>
                             <TextField
                                 fullWidth
-                                placeholder="Ex: Obtive conhecimento em Typescript através de..."
+                                placeholder="Ex: Obtive conhecimento em Typescript através de ..."
                                 {...register('description')}
                                 error={!!errors.description?.message}
                                 helperText={errors.description?.message as string}
