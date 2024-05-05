@@ -1,4 +1,4 @@
-export type IKnowledge = {
+export type ISkill = {
   id: number;
   createdAt: string;
   updatedAt: string;

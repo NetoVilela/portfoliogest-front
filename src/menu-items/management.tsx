@@ -57,11 +57,11 @@ const management: NavItemType = {
       url: '/management/contacts/list'
     },
     {
-      id: 'knowledges',
-      title: <FormattedMessage id="knowledges" />,
+      id: 'skills',
+      title: <FormattedMessage id="skills" />,
       type: 'item',
       icon: icons.book,
-      url: '/management/knowledges/list'
+      url: '/management/skills/list'
     },
     {
       id: 'projects',

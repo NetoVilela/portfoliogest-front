@@ -16,11 +16,11 @@ import { FieldValues } from 'react-hook-form';
 import { RemoveDataGrid } from 'components/Datagrid/Remove';
 import { DataGridDefault } from 'components/Datagrid';
 import FormContact from '../form';
-import { knowledgesMock } from 'mock/knowledges/list';
-import { IKnowledge } from 'types/knowledge/Knowledge';
+import { skillsMock } from 'mock/knowledges/list';
+import { ISkill } from 'types/knowledge/Knowledge';
 
-const PageListKnowledges = () => {
-  const [knowledges, setKnowledges] = useState<IKnowledge[]>([]);
+const PageListSkills = () => {
+  const [skills, setSkills] = useState<ISkill[]>([]);
   const [knowledgeId, setKnowledgeId] = useState<number>();
   const [loading, setLoading] = useState<boolean>(true);
   const [open, setOpen] = useState<boolean>(false);
@@ -62,7 +62,7 @@ const PageListKnowledges = () => {
       headerName: 'Status',
       flex: 1,
       renderCell: (params: GridRenderCellParams<any, any, any, GridTreeNodeWithRender>) => {
-        return <SwitchDataGrid params={params} urlToggle="/knowledges/toggle-active" />;
+        return <SwitchDataGrid params={params} urlToggle="/skills/toggle-active" />;
       }
     },
     {
@@ -73,7 +73,7 @@ const PageListKnowledges = () => {
         return (
           <Grid display="flex" justifyContent="space-between" width="100%" alignItems="center">
             <EditDataGrid params={params} onClick={handleEdit} />
-            <RemoveDataGrid params={params} callBack={getRows} urlDelete="/knowledges" />
+            <RemoveDataGrid params={params} callBack={getRows} urlDelete="/skills" />
           </Grid>
         );
       }
@@ -94,12 +94,12 @@ const PageListKnowledges = () => {
     };
 
     try {
-      const response = await api.get('/knowledges', { params: params_request });
+      const response = await api.get('/skills', { params: params_request });
 
       if (response.status === 200) {
-        let a_knowledges: IKnowledge[] = [];
-        response.data.map((knowledge: IKnowledge) => {
-          a_knowledges.push({
+        let a_skills: ISkill[] = [];
+        response.data.map((knowledge: ISkill) => {
+          a_skills.push({
             id: knowledge.id,
             createdAt: formateDate(knowledge.createdAt),
             updatedAt: formateDate(knowledge.updatedAt),
@@ -111,10 +111,10 @@ const PageListKnowledges = () => {
           return 0;
         });
 
-        setKnowledges(a_knowledges);
+        setSkills(a_skills);
       }
     } catch (error: any) {
-      setKnowledges(knowledgesMock);
+      setSkills(skillsMock);
       console.log(error);
     }
     setLoading(false);
@@ -135,12 +135,12 @@ const PageListKnowledges = () => {
   };
 
   return (
-    <DefaultSession title="Listagem de conhecimentos" handleClickNew={handleNew}>
+    <DefaultSession title="Listagem de habilidades" handleClickNew={handleNew}>
       <Grid container justifyContent="right" pb={2}>
         <SearchBar handleCallBack={getRows} hasName placeholderName='Ex: ReactJS' labelName='Conhecimento / Descrição' hasStatus />
       </Grid>
       <MainCard>
-        {loading ? <LoadingCircular /> : knowledges.length ? <DataGridDefault rows={knowledges} columns={columns} /> : <NoData />}
+        {loading ? <LoadingCircular /> : skills.length ? <DataGridDefault rows={skills} columns={columns} /> : <NoData />}
       </MainCard>
 
       <ModalDefault open={open} handleClose={handleClose}>
@@ -150,4 +150,4 @@ const PageListKnowledges = () => {
   );
 };
 
-export default PageListKnowledges;
+export default PageListSkills;

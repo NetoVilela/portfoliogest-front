@@ -90,7 +90,7 @@ const FormKnowledge = ({ handleCallBack, id }: Props) => {
         const getUser = async () => {
             setLoading(true);
             try {
-                const response = await api.get(`/knowledges/${id}`);
+                const response = await api.get(`/skill/${id}`);
                 if (response.status === 200) {
                     reset({
                     });

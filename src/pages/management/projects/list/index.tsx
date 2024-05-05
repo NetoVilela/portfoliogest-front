@@ -16,11 +16,11 @@ import { FieldValues } from 'react-hook-form';
 import { RemoveDataGrid } from 'components/Datagrid/Remove';
 import { DataGridDefault } from 'components/Datagrid';
 import FormContact from '../form';
-import { knowledgesMock } from 'mock/knowledges/list';
-import { IKnowledge } from 'types/knowledge/Knowledge';
+import { skillsMock } from 'mock/knowledges/list';
+import { ISkill } from 'types/knowledge/Knowledge';
 
 const PageListProjects = () => {
-  const [knowledges, setKnowledges] = useState<IKnowledge[]>([]);
+  const [knowledges, setKnowledges] = useState<ISkill[]>([]);
   const [knowledgeId, setKnowledgeId] = useState<number>();
   const [loading, setLoading] = useState<boolean>(true);
   const [open, setOpen] = useState<boolean>(false);
@@ -94,11 +94,11 @@ const PageListProjects = () => {
     };
 
     try {
-      const response = await api.get('/knowledges', { params: params_request });
+      const response = await api.get('/skills', { params: params_request });
 
       if (response.status === 200) {
-        let a_knowledges: IKnowledge[] = [];
-        response.data.map((knowledge: IKnowledge) => {
+        let a_knowledges: ISkill[] = [];
+        response.data.map((knowledge: ISkill) => {
           a_knowledges.push({
             id: knowledge.id,
             createdAt: formateDate(knowledge.createdAt),
@@ -114,7 +114,7 @@ const PageListProjects = () => {
         setKnowledges(a_knowledges);
       }
     } catch (error: any) {
-      setKnowledges(knowledgesMock);
+      setKnowledges(skillsMock);
       console.log(error);
     }
     setLoading(false);

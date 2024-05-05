@@ -12,7 +12,7 @@ const PageUserList = Loadable(lazy(() => import('pages/admin/users/list')));
 const PageListPortfolios = Loadable(lazy(() => import('pages/management/portfolios/list')));
 const PageFormPortfolios = Loadable(lazy(() => import('pages/management/portfolios/form')));
 const PageListContacts = Loadable(lazy(() => import('pages/management/contacts/list')));
-const PageListKnowledges = Loadable(lazy(() => import('pages/management/knowledges/list')));
+const PageListSkills = Loadable(lazy(() => import('pages/management/skills/list')));
 const PageListProjects = Loadable(lazy(() => import('pages/management/projects/list')));
 
 //  ProfileID = 1
@@ -82,8 +82,8 @@ const AdministratorRoutes = {
           element: <PageListContacts />
         },
         {
-          path: 'knowledges/list',
-          element: <PageListKnowledges />
+          path: 'skills/list',
+          element: <PageListSkills />
         },
         {
           path: 'projects/list',

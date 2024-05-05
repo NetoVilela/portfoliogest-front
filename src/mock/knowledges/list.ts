@@ -1,6 +1,6 @@
-import { IKnowledge } from 'types/knowledge/Knowledge';
+import { ISkill } from 'types/knowledge/Knowledge';
 
-export const knowledgesMock: IKnowledge[] = [
+export const skillsMock: ISkill[] = [
   {
     id: 5,
     createdAt: '01/04/2024 às 14:43:23',
