@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FieldValues, useForm } from 'react-hook-form';
-import { Button, Grid, InputLabel, Stack, TextField, Typography } from '@mui/material';
+import { Button, FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
 import AnimateButton from 'components/@extended/AnimateButton';
 import api from 'services/api';
 import { useEffect, useState } from 'react';
@@ -11,7 +11,7 @@ import { LoadingCircular } from 'components/Loading/LoadingCircular';
 import SchemaContactAdd from './schema';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { VisuallyHiddenInput } from 'components/VisuallyHiddenInput';
-import { InputNumberLevel } from 'components/InputNumberLevel';
+import { a_project_situations } from 'utils/datas_mock/projects/project_situations';
 
 type Props = {
     handleCallBack: () => void;
@@ -25,7 +25,7 @@ const FormKnowledge = ({ handleCallBack, id }: Props) => {
         setValue,
         formState: { errors },
         reset,
-        watch
+        trigger
     } = useForm({ resolver: zodResolver(SchemaContactAdd) });
 
     const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
@@ -43,7 +43,7 @@ const FormKnowledge = ({ handleCallBack, id }: Props) => {
 
         if (id) {
             try {
-                const response = await api.put(`/users/${id}`, obj);
+                const response = await api.put(`/projects/${id}`, obj);
 
                 if (response.status === 200) {
                     message = 'User updated successfully!';
@@ -56,7 +56,7 @@ const FormKnowledge = ({ handleCallBack, id }: Props) => {
             }
         } else {
             try {
-                const response = await api.post('/users', obj);
+                const response = await api.post('/projects', obj);
 
                 if (response.status === 201) {
                     message = 'User created successfully!';
@@ -115,35 +115,51 @@ const FormKnowledge = ({ handleCallBack, id }: Props) => {
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
                         <Typography variant="h4" fontWeight="bold">
-                            {id ? 'Editar conhecimento' : 'Adicionar conhecimento'}
+                            {id ? 'Editar projeto' : 'Adicionar projeto'}
                         </Typography>
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
                         <Stack spacing={1}>
-                            <InputLabel htmlFor="name" required>Nome</InputLabel>
+                            <InputLabel htmlFor="title" required>Título</InputLabel>
                             <TextField
                                 fullWidth
-                                placeholder="Ex: Typescript"
-                                {...register('name')}
-                                error={!!errors.name?.message}
-                                helperText={errors.name?.message as string}
+                                placeholder="Ex: Lista de tarefas"
+                                {...register('title')}
+                                error={!!errors.title?.message}
+                                helperText={errors.title?.message as string}
                             />
                         </Stack>
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
                         <Stack spacing={1}>
-                            <InputNumberLevel
-                                register={register}
-                                name="level"
-                                placeholder="Ex: Typescript"
-                                label="Nível de conhecimento"
-                                errorMessage={errors.level?.message as string}
-                                hasError={!!errors.level?.message}
-                                required={true}
-                                watch={watch}
-                            />
+                            <InputLabel htmlFor="situation" required>Situação</InputLabel>
+                            <FormControl sx={{ m: 1, minWidth: 120 }}>
+                                <Select
+                                    name="situation"
+                                    defaultValue={'0'}
+                                    onChange={(e) => {
+                                        setValue('situation', e.target.value);
+                                        setValue('value', '');
+                                        trigger('situation');
+                                    }}
+                                    error={!!errors.situation?.message}
+                                >
+                                    <MenuItem value={'0'}>
+                                        <em>Tipo de contato</em>
+                                    </MenuItem>
+                                        {a_project_situations.map((projectType, index) => {
+                                        return <MenuItem key={index} value={projectType.id}>{projectType.name}</MenuItem>;
+                                    })}
+                                </Select>
+                                {!!errors.situation?.message && (
+                                    <FormHelperText error id="standard-weight-helper-text-email-login">
+                                        {' '}
+                                        {errors.situation?.message as string}{' '}
+                                    </FormHelperText>
+                                )}
+                            </FormControl>
                         </Stack>
                     </Grid>
 
@@ -158,6 +174,19 @@ const FormKnowledge = ({ handleCallBack, id }: Props) => {
                                 helperText={errors.description?.message as string}
                                 multiline
                                 rows={5}
+                            />
+                        </Stack>
+                    </Grid>
+
+                    <Grid item xs={12} sm={6}>
+                        <Stack spacing={1}>
+                            <InputLabel htmlFor="link">Link</InputLabel>
+                            <TextField
+                                fullWidth
+                                placeholder="Ex: https://www.minhalistadetarefas.com"
+                                {...register('link')}
+                                error={!!errors.link?.message}
+                                helperText={errors.link?.message as string}
                             />
                         </Stack>
                     </Grid>

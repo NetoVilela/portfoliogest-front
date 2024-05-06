@@ -17,7 +17,7 @@ import { RemoveDataGrid } from 'components/Datagrid/Remove';
 import { DataGridDefault } from 'components/Datagrid';
 import FormContact from '../form';
 import { skillsMock } from 'mock/knowledges/list';
-import { ISkill } from 'types/knowledge/Knowledge';
+import { ISkill } from 'types/skill/Skill';
 
 const PageListSkills = () => {
   const [skills, setSkills] = useState<ISkill[]>([]);

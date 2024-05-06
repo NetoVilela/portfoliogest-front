@@ -15,7 +15,7 @@ const style = {
   boxShadow: 24,
   p: 4,
   outline: 'none',
-  maxHeight: 500,
+  // maxHeight: 500,
   overflowY: 'auto'
 };
 type Props = {

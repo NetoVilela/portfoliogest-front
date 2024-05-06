@@ -1,4 +1,4 @@
-import { ISkill } from 'types/knowledge/Knowledge';
+import { ISkill } from 'types/skill/Skill';
 
 export const skillsMock: ISkill[] = [
   {

@@ -16,12 +16,13 @@ import { FieldValues } from 'react-hook-form';
 import { RemoveDataGrid } from 'components/Datagrid/Remove';
 import { DataGridDefault } from 'components/Datagrid';
 import FormContact from '../form';
-import { skillsMock } from 'mock/knowledges/list';
-import { ISkill } from 'types/knowledge/Knowledge';
+import { projectsMock } from 'mock/projects/list';
+import { IProject } from 'types/project/Project';
+import { projectSituations } from 'utils/datas_mock/projects/obj_project_situations';
 
 const PageListProjects = () => {
-  const [knowledges, setKnowledges] = useState<ISkill[]>([]);
-  const [knowledgeId, setKnowledgeId] = useState<number>();
+  const [projects, setProjects] = useState<IProject[]>([]);
+  const [projectId, setProjectId] = useState<number>();
   const [loading, setLoading] = useState<boolean>(true);
   const [open, setOpen] = useState<boolean>(false);
   const [attPage, setAttPage] = useState<boolean>(false);
@@ -30,8 +31,8 @@ const PageListProjects = () => {
 
   const columns: GridColDef[] = [
     {
-      field: 'name',
-      headerName: 'Conhecimento',
+      field: 'title',
+      headerName: 'Título',
       flex: 1
     },
     {
@@ -40,11 +41,11 @@ const PageListProjects = () => {
       flex: 1
     },
     {
-      field: 'level',
-      headerName: 'Nível',
+      field: 'situation',
+      headerName: 'Situação',
       flex: 1,
       renderCell: (params: GridRenderCellParams<any, any, any, GridTreeNodeWithRender>) => {
-        return <Typography> {params.row.level} / 10 </Typography>;
+        return <Typography> {projectSituations[params.row.situation as "schematized" | "in_development" | "finished"]} </Typography>;
       }
     },
     {
@@ -94,57 +95,53 @@ const PageListProjects = () => {
     };
 
     try {
-      const response = await api.get('/skills', { params: params_request });
+      const response = await api.get('/projects', { params: params_request });
 
       if (response.status === 200) {
-        let a_knowledges: ISkill[] = [];
-        response.data.map((knowledge: ISkill) => {
-          a_knowledges.push({
-            id: knowledge.id,
-            createdAt: formateDate(knowledge.createdAt),
-            updatedAt: formateDate(knowledge.updatedAt),
-            name: knowledge.name,
-            status: knowledge.status,
-            description: knowledge.description,
-            level: knowledge.level
+        let a_projects: IProject[] = [];
+        response.data.map((project: IProject) => {
+          a_projects.push({
+            ...project,
+            createdAt: formateDate(project.createdAt),
+            updatedAt: formateDate(project.updatedAt),
           });
           return 0;
         });
 
-        setKnowledges(a_knowledges);
+        setProjects(a_projects);
       }
     } catch (error: any) {
-      setKnowledges(skillsMock);
+      setProjects(projectsMock);
       console.log(error);
     }
     setLoading(false);
   };
 
   const handleEdit = (id: string) => {
-    setKnowledgeId(+id);
+    setProjectId(+id);
     handleOpen();
   };
 
   const handleNew = () => {
-    setKnowledgeId(0);
+    setProjectId(0);
     handleOpen();
   };
 
-  const handleCallbackNewCustomer = () => {
+  const handleCallbackNewProject = () => {
     setAttPage(!attPage);
   };
 
   return (
     <DefaultSession title="Listagem de projetos" handleClickNew={handleNew}>
       <Grid container justifyContent="right" pb={2}>
-        <SearchBar handleCallBack={getRows} hasName placeholderName='Ex: ReactJS' labelName='Conhecimento / Descrição' hasStatus />
+        <SearchBar handleCallBack={getRows} hasName placeholderName='Ex: Lista de tarefas' labelName='Título / Descrição' hasStatus />
       </Grid>
       <MainCard>
-        {loading ? <LoadingCircular /> : knowledges.length ? <DataGridDefault rows={knowledges} columns={columns} /> : <NoData />}
+        {loading ? <LoadingCircular /> : projects.length ? <DataGridDefault rows={projects} columns={columns} /> : <NoData />}
       </MainCard>
 
       <ModalDefault open={open} handleClose={handleClose}>
-        <FormContact handleCallBack={handleCallbackNewCustomer} id={knowledgeId} />
+        <FormContact handleCallBack={handleCallbackNewProject} id={projectId} />
       </ModalDefault>
     </DefaultSession>
   );
