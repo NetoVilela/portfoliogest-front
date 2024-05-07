@@ -2,7 +2,7 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import { UserSquare, SaveAdd, Fatrows, Profile, User, TicketStar, Folder, Additem, Call, Book, Box, Book1 } from 'iconsax-react';
+import { UserSquare, SaveAdd, Fatrows, Profile, User, TicketStar, Folder, Additem, Call, Book, Box, Book1, House } from 'iconsax-react';
 
 // type
 import { NavItemType } from 'types/menu';
@@ -20,7 +20,8 @@ const icons = {
   call: Call,
   book: Book,
   box: Box,
-  book1: Book1
+  book1: Book1,
+  house: House
 };
 
 const management: NavItemType = {
@@ -77,6 +78,13 @@ const management: NavItemType = {
       type: 'item',
       icon: icons.book1,
       url: '/management/courses/list'
+    },
+    {
+      id: 'professional_experiences',
+      title: <FormattedMessage id="professional_experiences" />,
+      type: 'item',
+      icon: icons.house,
+      url: '/management/professional_experiences/list'
     }
   ]
 };

@@ -15,6 +15,7 @@ const PageListContacts = Loadable(lazy(() => import('pages/management/contacts/l
 const PageListSkills = Loadable(lazy(() => import('pages/management/skills/list')));
 const PageListProjects = Loadable(lazy(() => import('pages/management/projects/list')));
 const PageListCourses = Loadable(lazy(() => import('pages/management/courses/list')));
+const PageListProfessionalExperiences = Loadable(lazy(() => import('pages/management/profissionalExperiences/list')));
 
 //  ProfileID = 1
 const AdministratorRoutes = {
@@ -93,6 +94,10 @@ const AdministratorRoutes = {
         {
           path: 'courses/list',
           element: <PageListCourses />
+        },
+        {
+          path: 'professional_experiences/list',
+          element: <PageListProfessionalExperiences />
         }
       ]
     }
