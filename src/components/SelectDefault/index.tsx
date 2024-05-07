@@ -13,12 +13,12 @@ type Props = {
   options: IOption[];
   error: boolean;
   helperText: string;
-  required: boolean;
+  required?: boolean;
   setValue: UseFormSetValue<FieldValues>;
   trigger: UseFormTrigger<FieldValues>;
 };
 
-export const SelectDefault = ({ label, name, required, options, error, helperText, setValue, trigger }: Props) => {
+export const SelectDefault = ({ label, name, required = false, options, error, helperText, setValue, trigger }: Props) => {
   return (
     <>
       <InputLabel htmlFor={name} required={required}>

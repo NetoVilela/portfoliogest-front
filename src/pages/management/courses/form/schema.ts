@@ -9,13 +9,9 @@ const SchemaCourseForm = object({
   institutionAcronum: string().optional(),
   degree: number({ required_error: 'Campo obrigatório' }),
   monthStart: string({ required_error: 'Campo obrigatório' }).refine((val) => val !== '0', { message: 'Campo obrigatório' }),
-  yearStart: string({ required_error: 'Campo obrigatório' })
-    .min(4, { message: 'Forneça um ano válido' })
-    .max(4, { message: 'Forneça um ano válido' }),
+  yearStart: string({ required_error: 'Campo obrigatório' }).max(4, { message: 'Forneça um ano válido' }),
   monthEnd: string({ required_error: 'Campo obrigatório' }).refine((val) => val !== '0', { message: 'Campo obrigatório' }),
-  yearEnd: string({ required_error: 'Campo obrigatório' })
-    .min(4, { message: 'Forneça um ano válido' })
-    .max(4, { message: 'Forneça um ano válido' }),
+  yearEnd: string({ required_error: 'Campo obrigatório' }).max(4, { message: 'Forneça um ano válido' }),
   description: string().optional()
 });
 

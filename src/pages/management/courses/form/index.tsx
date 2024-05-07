@@ -191,21 +191,21 @@ const FormCourse = ({ handleCallBack, id }: Props) => {
                     <Grid item xs={12} sm={4}>
                         <Stack spacing={1}>
                             <SelectDefault
-                                label="Mês em que iniciou"
+                                label="Mês (início)"
                                 name="monthStart"
                                 options={a_months}
                                 error={!!errors.monthStart?.message}
                                 helperText={errors.monthStart?.message as string}
                                 setValue={setValue}
                                 trigger={trigger}
-                                required
+
                             />
                         </Stack>
                     </Grid>
 
-                    <Grid item xs={12} sm={4}>
+                    <Grid item xs={12} sm={2}>
                         <Stack spacing={1}>
-                            <InputLabel htmlFor="yearStart">Ano em que iniciou</InputLabel>
+                            <InputLabel htmlFor="yearStart">Ano (início)</InputLabel>
                             <TextField
                                 fullWidth
                                 type="number"
@@ -217,26 +217,24 @@ const FormCourse = ({ handleCallBack, id }: Props) => {
                         </Stack>
                     </Grid>
 
-                    <Grid item xs={12} sm={4}></Grid>
-
                         <Grid item xs={12} sm={4}>
                             <Stack spacing={1}>
                                 <SelectDefault
-                                    label="Mês em que finalizou"
+                                    label="Mês (fim)"
                                     name="monthEnd"
                                     options={a_months}
                                     error={!!errors.monthEnd?.message}
                                     helperText={errors.monthEnd?.message as string}
                                     setValue={setValue}
                                     trigger={trigger}
-                                    required
+
                                 />
                             </Stack>
                         </Grid>
 
-                        <Grid item xs={12} sm={4}>
+                        <Grid item xs={12} sm={2}>
                             <Stack spacing={1}>
-                                <InputLabel htmlFor="yearEnd">Ano em que finalizou</InputLabel>
+                                <InputLabel htmlFor="yearEnd">Ano (fim)</InputLabel>
                                 <TextField
                                     fullWidth
                                     type="number"
